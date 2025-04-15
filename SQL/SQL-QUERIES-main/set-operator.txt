@@ -1,0 +1,181 @@
+drop table t1 purge;
+drop table t2 purge;
+drop table t3 purge;
+
+create table t1 (
+  id           number(2) constraint t1_pk primary key,
+  record_type  number(2),
+  description  varchar2(12)
+);
+
+insert into t1 values (1, 10,'TEN');
+insert into t1 values (2, 10,'TEN');
+insert into t1 values (3, 20,'TWENTY');
+insert into t1 values (4, 20,'TWENTY');
+insert into t1 values (5, 30,'THIRTY');
+insert into t1 values (6, 30,'THIRTY');
+commit;
+
+create table t2 (
+  id           number(2) constraint t2_pk primary key,
+  record_type  number(2),
+  description  varchar2(12)
+);
+
+insert into t2 values (1, 20,'TWENTY');
+insert into t2 values (2, 30,'THIRTY');
+commit;
+
+create table t3 (
+  id           number(2) constraint t3_pk primary key,
+  record_type  number(2),
+  description  varchar2(12)
+);
+
+insert into t3 values (1, 20,'TWENTY');
+insert into t3 values (2, 20,'TWENTY');
+insert into t3 values (3, 30,'THIRTY');
+insert into t3 values (4, 30,'THIRTY');
+commit;
+
+*******************************************************************
+
+Table: t1
+
++----+-------------+-------------+
+| ID | RECORD_TYPE | DESCRIPTION |
++----+-------------+-------------+
+|  1 |          10 | TEN         |
+|  2 |          10 | TEN         |
+|  3 |          20 | TWENTY      |
+|  4 |          20 | TWENTY      |
+|  5 |          30 | THIRTY      |
+|  6 |          30 | THIRTY      |
++----+-------------+-------------+
+
+
+Table: t2
+
++----+-------------+-------------+
+| ID | RECORD_TYPE | DESCRIPTION |
++----+-------------+-------------+
+|  1 |          20 | TWENTY      |
+|  2 |          30 | THIRTY      |
++----+-------------+-------------+
+
+
+Table: t3
+
++----+-------------+-------------+
+| ID | RECORD_TYPE | DESCRIPTION |
++----+-------------+-------------+
+|  1 |          20 | TWENTY      |
+|  2 |          20 | TWENTY      |
+|  3 |          30 | THIRTY      |
+|  4 |          30 | THIRTY      |
++----+-------------+-------------+
+
+
+******************************************************************************************************************
+
+
+1. UNION
+
+Combines the results of two or more SELECT statements and removes duplicate rows. 
+It returns only distinct rows across all queries
+
+SELECT column_name FROM table1
+UNION
+SELECT column_name FROM table2;
+
+ex: 
+
+ SELECT deptno FROM t1
+UNION
+SELECT deptno FROM t2;
+
+o/p:
+
+deptno
+10
+20
+30
+40
+50
+60
+
+----------------------------------------------------------------------------------------------------------------------
+2. UNION ALL
+
+ Combines the results of two or more SELECT statements but includes all rows, even if they are duplicates.
+
+SELECT column_name FROM table1
+UNION ALL
+SELECT column_name FROM table2;
+
+ex:
+ 
+SELECT deptno FROM t1
+UNION ALL
+SELECT deptno FROM t2;
+
+
+o/p:
+
+Result (Including duplicates):
+
+deptno
+10
+20
+30
+40
+20
+30
+50
+60
+----------------------------------------------------------------------------------------------------------------------
+
+3. INTERSECT
+
+
+Returns only the rows that are common to both SELECT statements (i.e., the intersection of two result sets).
+
+SELECT column_name FROM table1
+INTERSECT
+SELECT column_name FROM table2;
+
+ex:
+
+SELECT deptno FROM t1
+INTERSECT
+SELECT deptno FROM t2;
+
+o/p:
+
+deptno
+20
+30
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+4.MINUS
+ Returns the rows from the first SELECT statement that are not present in the second SELECT statement.
+
+SELECT column_name FROM table1
+MINUS
+SELECT column_name FROM table2;
+
+ex:
+
+SELECT deptno FROM t1
+MINUS
+SELECT deptno FROM t2;
+
+o/p:
+
+deptno
+10
+40
+
+
