@@ -1,0 +1,217 @@
+SQL> select * from bikes;
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         1 Trek                                                                                     
+Domane AL 2                                        Road                              1099.99        
+                                                                                                    
+         2 Specialized                                                                              
+Rockhopper                                         Mountain                           899.99        
+                                                                                                    
+         3 Giant                                                                                    
+Escape 3                                           Hybrid                             499.99        
+                                                                                                    
+         4 Cannondale                                                                               
+Synapse Carbon                                     Road                              2499.99        
+                                                                                                    
+         5 Rad Power                                                                                
+RadCity 5 Plus                                     Electric                          1999.99        
+                                                                                                    
+
+SQL> SELECT Brand, Model, Price FROM Bikes;
+
+BRAND                                                                                               
+--------------------------------------------------                                                  
+MODEL                                                   PRICE                                       
+-------------------------------------------------- ----------                                       
+Trek                                                                                                
+Domane AL 2                                           1099.99                                       
+                                                                                                    
+Specialized                                                                                         
+Rockhopper                                             899.99                                       
+                                                                                                    
+Giant                                                                                               
+Escape 3                                               499.99                                       
+                                                                                                    
+Cannondale                                                                                          
+Synapse Carbon                                        2499.99                                       
+                                                                                                    
+Rad Power                                                                                           
+RadCity 5 Plus                                        1999.99                                       
+                                                                                                    
+
+SQL> SELECT DISTINCT Type FROM Bikes;
+
+TYPE                                                                                                
+------------------------------                                                                      
+Road                                                                                                
+Hybrid                                                                                              
+Electric                                                                                            
+Mountain                                                                                            
+
+SQL> SELECT COUNT(*) FROM Bikes;
+
+  COUNT(*)                                                                                          
+----------                                                                                          
+         5                                                                                          
+
+SQL> SELECT * FROM Bikes ORDER BY Price ASC;
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         3 Giant                                                                                    
+Escape 3                                           Hybrid                             499.99        
+                                                                                                    
+         2 Specialized                                                                              
+Rockhopper                                         Mountain                           899.99        
+                                                                                                    
+         1 Trek                                                                                     
+Domane AL 2                                        Road                              1099.99        
+                                                                                                    
+         5 Rad Power                                                                                
+RadCity 5 Plus                                     Electric                          1999.99        
+                                                                                                    
+         4 Cannondale                                                                               
+Synapse Carbon                                     Road                              2499.99        
+                                                                                                    
+
+SQL> SELECT * FROM Bikes WHERE Price < 1000;
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         2 Specialized                                                                              
+Rockhopper                                         Mountain                           899.99        
+                                                                                                    
+         3 Giant                                                                                    
+Escape 3                                           Hybrid                             499.99        
+                                                                                                    
+
+SQL> SELECT * FROM Bikes WHERE Type = 'Electric';
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         5 Rad Power                                                                                
+RadCity 5 Plus                                     Electric                          1999.99        
+                                                                                                    
+
+SQL> SELECT * FROM Bikes WHERE Price BETWEEN 500 AND 2000;
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         1 Trek                                                                                     
+Domane AL 2                                        Road                              1099.99        
+                                                                                                    
+         2 Specialized                                                                              
+Rockhopper                                         Mountain                           899.99        
+                                                                                                    
+         5 Rad Power                                                                                
+RadCity 5 Plus                                     Electric                          1999.99        
+                                                                                                    
+
+SQL> SELECT * FROM Bikes WHERE Type <> 'Road';
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         2 Specialized                                                                              
+Rockhopper                                         Mountain                           899.99        
+                                                                                                    
+         3 Giant                                                                                    
+Escape 3                                           Hybrid                             499.99        
+                                                                                                    
+         5 Rad Power                                                                                
+RadCity 5 Plus                                     Electric                          1999.99        
+                                                                                                    
+
+SQL> SELECT * FROM Bikes WHERE Brand LIKE 'S%';
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         2 Specialized                                                                              
+Rockhopper                                         Mountain                           899.99        
+                                                                                                    
+
+SQL> SELECT AVG(Price) AS AveragePrice FROM Bikes;
+
+AVERAGEPRICE                                                                                        
+------------                                                                                        
+     1399.99                                                                                        
+
+SQL> SELECT MAX(Price) AS HighestPrice, MIN(Price) AS LowestPrice FROM Bikes;
+
+HIGHESTPRICE LOWESTPRICE                                                                            
+------------ -----------                                                                            
+     2499.99      499.99                                                                            
+
+SQL> SELECT SUM(Price) AS TotalValue FROM Bikes;
+
+TOTALVALUE                                                                                          
+----------                                                                                          
+   6999.95                                                                                          
+
+SQL> SELECT Type, COUNT(*) AS TotalBikes FROM Bikes GROUP BY Type;
+
+TYPE                           TOTALBIKES                                                           
+------------------------------ ----------                                                           
+Road                                    2                                                           
+Hybrid                                  1                                                           
+Electric                                1                                                           
+Mountain                                1                                                           
+
+SQL> SELECT * FROM Bikes ORDER BY Price DESC FETCH FIRST 5 ROWS ONLY;
+SELECT * FROM Bikes ORDER BY Price DESC FETCH FIRST 5 ROWS ONLY
+                                        *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT * FROM Bikes ORDER BY Price ASC FETCH FIRST 10 ROWS ONLY;
+SELECT * FROM Bikes ORDER BY Price ASC FETCH FIRST 10 ROWS ONLY
+                                       *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT * FROM Bikes WHERE Type IN ('Road', 'Mountain');
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         1 Trek                                                                                     
+Domane AL 2                                        Road                              1099.99        
+                                                                                                    
+         2 Specialized                                                                              
+Rockhopper                                         Mountain                           899.99        
+                                                                                                    
+         4 Cannondale                                                                               
+Synapse Carbon                                     Road                              2499.99        
+                                                                                                    
+
+SQL> SELECT * FROM Bikes WHERE Price > (SELECT AVG(Price) FROM Bikes);
+
+    BIKEID BRAND                                                                                    
+---------- --------------------------------------------------                                       
+MODEL                                              TYPE                                PRICE        
+-------------------------------------------------- ------------------------------ ----------        
+         4 Cannondale                                                                               
+Synapse Carbon                                     Road                              2499.99        
+                                                                                                    
+         5 Rad Power                                                                                
+RadCity 5 Plus                                     Electric                          1999.99        
+                                                                                                    
+
+SQL> spool off;

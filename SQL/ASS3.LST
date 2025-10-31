@@ -1,0 +1,384 @@
+SQL> select(*)
+  2  from emp;
+select(*)
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> select *
+  2  from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+      7369 SMITH      CLERK           7902 17-DEC-80        800                 
+        20                                                                      
+                                                                                
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300      
+        30                                                                      
+                                                                                
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500      
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+      7566 JONES      MANAGER         7839 02-APR-81       2975                 
+        20                                                                      
+                                                                                
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400      
+        30                                                                      
+                                                                                
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                 
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                 
+        10                                                                      
+                                                                                
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                 
+        20                                                                      
+                                                                                
+      7839 KING       PRESIDENT            17-NOV-81       5000                 
+        10                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0      
+        30                                                                      
+                                                                                
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                 
+        20                                                                      
+                                                                                
+      7900 JAMES      CLERK           7698 03-DEC-81        950                 
+        30                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                 
+        20                                                                      
+                                                                                
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                 
+        10                                                                      
+                                                                                
+
+14 rows selected.
+
+SQL> set pages 100 lines 100
+SQL> select *
+  2  from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20               
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30               
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30               
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20               
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30               
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30               
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10               
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20               
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10               
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30               
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20               
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30               
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20               
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10               
+
+14 rows selected.
+
+SQL> select count(*),deptno
+  2  from emp
+  3  where job!='PRESIDENT'
+  4  Group by deptno;
+
+  COUNT(*)     DEPTNO                                                                               
+---------- ----------                                                                               
+         6         30                                                                               
+         5         20                                                                               
+         2         10                                                                               
+
+SQL> ;
+  1  select count(*),deptno
+  2  from emp
+  3  where job!='PRESIDENT'
+  4* Group by deptno
+SQL> select sum(sal),job
+  2  from emp
+  3  group by job;
+
+  SUM(SAL) JOB                                                                                      
+---------- ---------                                                                                
+      4150 CLERK                                                                                    
+      5600 SALESMAN                                                                                 
+      5000 PRESIDENT                                                                                
+      8275 MANAGER                                                                                  
+      6000 ANALYST                                                                                  
+
+SQL> select count(empno),deptno
+  2  from emp
+  3  where job='MANAGER'
+  4  group by deptno;
+
+COUNT(EMPNO)     DEPTNO                                                                             
+------------ ----------                                                                             
+           1         30                                                                             
+           1         20                                                                             
+           1         10                                                                             
+
+SQL> select avg(sal)
+  2  from emp
+  3  where deptno!=20
+  4  group by deptno;
+
+  AVG(SAL)                                                                                          
+----------                                                                                          
+1566.66667                                                                                          
+2916.66667                                                                                          
+
+SQL> select count(empno),deptno
+  2  from emp
+  3  where ename like
+  4  ;
+
+*
+ERROR at line 4:
+ORA-00936: missing expression 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(empno),job
+  2  from emp
+  3  where ename like '%A%'
+  4* group by job
+  5  /
+
+COUNT(EMPNO) JOB                                                                                    
+------------ ---------                                                                              
+           3 SALESMAN                                                                               
+           2 CLERK                                                                                  
+           2 MANAGER                                                                                
+
+SQL> select count(empno),avg(sal)
+  2  from emp
+  3  where sal>2000
+  4  group by deptno;
+
+COUNT(EMPNO)   AVG(SAL)                                                                             
+------------ ----------                                                                             
+           1       2850                                                                             
+           3 2991.66667                                                                             
+           2       3725                                                                             
+
+SQL> select sum(sal),count(job)
+  2  from emp
+  3  where job='SALESMAN'
+  4  group by deptno;
+
+  SUM(SAL) COUNT(JOB)                                                                               
+---------- ----------                                                                               
+      5600          4                                                                               
+
+SQL> select count(empno),max(sal)
+  2  from emp
+  3  group by job;
+
+COUNT(EMPNO)   MAX(SAL)                                                                             
+------------ ----------                                                                             
+           4       1300                                                                             
+           4       1600                                                                             
+           1       5000                                                                             
+           3       2975                                                                             
+           2       3000                                                                             
+
+SQL> select max(sal)
+  2  from emp
+  3  group by deptno;
+
+  MAX(SAL)                                                                                          
+----------                                                                                          
+      2850                                                                                          
+      3000                                                                                          
+      5000                                                                                          
+
+SQL> select count(sal)
+  2  from emp;
+
+COUNT(SAL)                                                                                          
+----------                                                                                          
+        14                                                                                          
+
+SQL> select count(*),hiredate,deptno
+  2  from emp
+  3  group by hiredate,deptno;
+
+  COUNT(*) HIREDATE      DEPTNO                                                                     
+---------- --------- ----------                                                                     
+         1 22-FEB-81         30                                                                     
+         1 01-MAY-81         30                                                                     
+         1 08-SEP-81         30                                                                     
+         1 28-SEP-81         30                                                                     
+         1 20-FEB-81         30                                                                     
+         1 23-JAN-82         10                                                                     
+         1 17-DEC-80         20                                                                     
+         1 17-NOV-81         10                                                                     
+         1 19-APR-87         20                                                                     
+         1 23-MAY-87         20                                                                     
+         1 03-DEC-81         20                                                                     
+         1 02-APR-81         20                                                                     
+         1 09-JUN-81         10                                                                     
+         1 03-DEC-81         30                                                                     
+
+14 rows selected.
+
+SQL> select count(*),sal,deptno
+  2  from emp
+  3  group by sal,deptno;
+
+  COUNT(*)        SAL     DEPTNO                                                                    
+---------- ---------- ----------                                                                    
+         1       5000         10                                                                    
+         1       1300         10                                                                    
+         1       1600         30                                                                    
+         2       1250         30                                                                    
+         1       2450         10                                                                    
+         2       3000         20                                                                    
+         1        800         20                                                                    
+         1       2850         30                                                                    
+         1       1500         30                                                                    
+         1       1100         20                                                                    
+         1        950         30                                                                    
+         1       2975         20                                                                    
+
+12 rows selected.
+
+SQL> select count(*),ename,deptno
+  2  from emp
+  3  group by ename,deptno;
+
+  COUNT(*) ENAME          DEPTNO                                                                    
+---------- ---------- ----------                                                                    
+         1 SMITH              20                                                                    
+         1 JONES              20                                                                    
+         1 FORD               20                                                                    
+         1 CLARK              10                                                                    
+         1 SCOTT              20                                                                    
+         1 TURNER             30                                                                    
+         1 JAMES              30                                                                    
+         1 KING               10                                                                    
+         1 ADAMS              20                                                                    
+         1 BLAKE              30                                                                    
+         1 MILLER             10                                                                    
+         1 ALLEN              30                                                                    
+         1 WARD               30                                                                    
+         1 MARTIN             30                                                                    
+
+14 rows selected.
+
+SQL> select count(sal),deptno,count(ename)
+  2  from emp
+  3  group by deptno;
+
+COUNT(SAL)     DEPTNO COUNT(ENAME)                                                                  
+---------- ---------- ------------                                                                  
+         6         30            6                                                                  
+         5         20            5                                                                  
+         3         10            3                                                                  
+
+SQL> select sal,deptno,count(ename)
+  2  from emp
+  3  group by deptno;
+select sal,deptno,count(ename)
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> select sal,deptno,count(ename)
+  2  from emp
+  3  group by sal,deptno;
+
+       SAL     DEPTNO COUNT(ENAME)                                                                  
+---------- ---------- ------------                                                                  
+      5000         10            1                                                                  
+      1300         10            1                                                                  
+      1600         30            1                                                                  
+      1250         30            2                                                                  
+      2450         10            1                                                                  
+      3000         20            2                                                                  
+       800         20            1                                                                  
+      2850         30            1                                                                  
+      1500         30            1                                                                  
+      1100         20            1                                                                  
+       950         30            1                                                                  
+      2975         20            1                                                                  
+
+12 rows selected.
+
+SQL> select sal,deptno,count(empno)
+  2  from emp
+  3  group by sal,deptno,hiredate;
+
+       SAL     DEPTNO COUNT(EMPNO)                                                                  
+---------- ---------- ------------                                                                  
+      2450         10            1                                                                  
+      1500         30            1                                                                  
+      3000         20            1                                                                  
+      2850         30            1                                                                  
+      2975         20            1                                                                  
+       950         30            1                                                                  
+      1600         30            1                                                                  
+      1250         30            1                                                                  
+      3000         20            1                                                                  
+       800         20            1                                                                  
+      5000         10            1                                                                  
+      1100         20            1                                                                  
+      1300         10            1                                                                  
+      1250         30            1                                                                  
+
+14 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sal,deptno,count(empno),hiredate
+  2  from emp
+  3* group by sal,deptno,hiredate
+SQL> /
+
+       SAL     DEPTNO COUNT(EMPNO) HIREDATE                                                         
+---------- ---------- ------------ ---------                                                        
+      2450         10            1 09-JUN-81                                                        
+      1500         30            1 08-SEP-81                                                        
+      3000         20            1 03-DEC-81                                                        
+      2850         30            1 01-MAY-81                                                        
+      2975         20            1 02-APR-81                                                        
+       950         30            1 03-DEC-81                                                        
+      1600         30            1 20-FEB-81                                                        
+      1250         30            1 22-FEB-81                                                        
+      3000         20            1 19-APR-87                                                        
+       800         20            1 17-DEC-80                                                        
+      5000         10            1 17-NOV-81                                                        
+      1100         20            1 23-MAY-87                                                        
+      1300         10            1 23-JAN-82                                                        
+      1250         30            1 28-SEP-81                                                        
+
+14 rows selected.
+
+SQL> spool off;

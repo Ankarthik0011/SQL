@@ -1,0 +1,8 @@
+SQL> select count( distinct sal)
+  2  from emp;
+
+COUNT(DISTINCTSAL)                                                              
+------------------                                                              
+                12                                                              
+
+SQL> spool off;

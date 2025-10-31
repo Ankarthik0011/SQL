@@ -1,0 +1,54 @@
+create table patient (
+patient_id number(4) primary key,
+name varchar(20) not null,
+age number(10) not null,
+Gender char(4) not null,
+address varchar(20) not null,
+disease char(10) not null,
+doctor_id number(10) not null);
+
+create table doctor (
+doctor_id number(10) primary key,
+name varchar(20) not null,
+age number(10) not null,
+Gender char(4) not null,
+address varchar(20) not null);
+
+
+create table Laboratory (
+lab_no number(10) primary key,
+patient_id number(20) not null,
+doctor_id number(10) not null,
+date date ,
+amount numberr(20) not null);
+
+
+create table Inpatient (
+patient_id number(10) primary key,
+room_no number(20) not null,
+date_of_adm date ,
+date_of_dis date,
+lab_no numberr(20) not null);
+
+create table Outpatient (
+patient_id number(10) primary key,,
+"date" date ,
+lab_no numberr(20) not null);
+
+create table Room (
+Room_no number(20) primary key,
+Room_type varchar(20) not null ,
+status varchar(20) not null);
+
+create table Bill (
+Bill_id number(20) primary key,
+patient_id number(20) not null,
+doctor_charge number(20) not null
+Room_charge number(20) not null
+"No_of_days" date
+lab_chargebill number(20) not null;
+
+
+
+
+

@@ -1,0 +1,24 @@
+declare 
+v_sal int:=&v_sal;
+v_name varchar(20):=upper('&v_name');
+o_sal int;
+i int;
+sal_exception exception ;
+begin
+select sal into o_sal
+from emp
+where ename =v_name;
+i:=o_sal +v_sal;
+if i>2000 then
+raise sal_exception;
+else
+update emp
+set sal=i
+where ename=v_name;
+end if;
+exception
+when sal_exception then
+dbms_output.put_line('sal is morethan 2000 so we can't update');
+end;
+/
+

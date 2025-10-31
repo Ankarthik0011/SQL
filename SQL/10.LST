@@ -1,0 +1,119 @@
+SQL> select * from cat;
+
+TABLE_NAME                     TABLE_TYPE                                       
+------------------------------ -----------                                      
+BONUS                          TABLE                                            
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+EMP_TRAINS                     TABLE                                            
+SALGRADE                       TABLE                                            
+
+SQL> select trigger E_trains from emp;
+select trigger E_trains from emp
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> select trigger emp_trains from emp;
+select trigger emp_trains from emp
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> create or replace trigger e_trans
+  2  after update on emp
+  3  for each row
+  4  declare
+  5  pragma autonomous_transaction;
+  6  begin
+  7  insert into emp_trans(empno,name,old_sal,new_sal)
+  8  values(:old.empno,:old.ename,:old:sal,:2000);
+  9  end;
+ 10  /
+
+Warning: Trigger created with compilation errors.
+
+SQL> show errors;
+Errors for TRIGGER E_TRANS:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+4/1      PL/SQL: SQL Statement ignored                                          
+5/30     PLS-00049: bad bind variable 'OLD'                                     
+5/34     PLS-00049: bad bind variable 'SAL'                                     
+5/35     PL/SQL: ORA-00917: missing comma                                       
+5/39     PLS-00049: bad bind variable '2000'                                    
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace trigger e_trans
+  2  after update on emp
+  3  for each row
+  4  declare
+  5  pragma autonomous_transaction;
+  6  begin
+  7  insert into emp_trans(empno,name,old_sal,new_sal)
+  8  values(:old.empno,:old.ename,:old:sal,:new.sal);
+  9* end;
+SQL> /
+
+Warning: Trigger created with compilation errors.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace trigger e_trans
+  2  after update on emp
+  3  for each row
+  4  declare
+  5  pragma autonomous_transaction;
+  6  begin
+  7  insert into emp_trans(empno,name,old_sal,new_sal)
+  8  values(:old.empno,:old.ename,:old.sal,:new.sal);
+  9* end;
+SQL> /
+
+Warning: Trigger created with compilation errors.
+
+SQL> select denserank() over order by
+  2  from emp;
+select denserank() over order by
+                        *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select dense_rank() over(order by null)
+  2* from emp
+SQL> /
+
+DENSE_RANK()OVER(ORDERBYNULL)                                                   
+-----------------------------                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+
+DENSE_RANK()OVER(ORDERBYNULL)                                                   
+-----------------------------                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+                            1                                                   
+
+16 rows selected.
+
+SQL> spool off;

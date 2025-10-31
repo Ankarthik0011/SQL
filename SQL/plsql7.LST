@@ -1,0 +1,576 @@
+SQL> create index sal_ind
+  2  on emp(sal);
+
+Index created.
+
+SQL> select * from
+  2  emp
+  3  where sal=3000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20               
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20               
+
+SQL> set autotrace on explain;
+SQL> select * from
+  2  emp
+  3  where sal=3000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20               
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20               
+
+
+Execution Plan
+----------------------------------------------------------                                          
+Plan hash value: 3027537015                                                                         
+                                                                                                    
+---------------------------------------------------------------------------------------             
+| Id  | Operation                   | Name    | Rows  | Bytes | Cost (%CPU)| Time     |             
+---------------------------------------------------------------------------------------             
+|   0 | SELECT STATEMENT            |         |     2 |    68 |     2   (0)| 00:00:01 |             
+|   1 |  TABLE ACCESS BY INDEX ROWID| EMP     |     2 |    68 |     2   (0)| 00:00:01 |             
+|*  2 |   INDEX RANGE SCAN          | SAL_IND |     2 |       |     1   (0)| 00:00:01 |             
+---------------------------------------------------------------------------------------             
+                                                                                                    
+Predicate Information (identified by operation id):                                                 
+---------------------------------------------------                                                 
+                                                                                                    
+   2 - access("SAL"=3000)                                                                           
+
+SQL> create index emp_sal_deptno_ind
+  2  on emp(sal_deptno);
+on emp(sal_deptno)
+       *
+ERROR at line 2:
+ORA-00904: "SAL_DEPTNO": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create index emp_sal_deptno_ind
+  2* on emp(sal,deptno)
+SQL> /
+
+Index created.
+
+SQL> select * from
+  2  emp
+  3  where sal=3000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20               
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20               
+
+
+Execution Plan
+----------------------------------------------------------                                          
+Plan hash value: 1264431521                                                                         
+                                                                                                    
+--------------------------------------------------------------------------------------------------  
+| Id  | Operation                   | Name               | Rows  | Bytes | Cost (%CPU)| Time     |  
+--------------------------------------------------------------------------------------------------  
+|   0 | SELECT STATEMENT            |                    |     2 |    68 |     2   (0)| 00:00:01 |  
+|   1 |  TABLE ACCESS BY INDEX ROWID| EMP                |     2 |    68 |     2   (0)| 00:00:01 |  
+|*  2 |   INDEX RANGE SCAN          | EMP_SAL_DEPTNO_IND |     2 |       |     1   (0)| 00:00:01 |  
+--------------------------------------------------------------------------------------------------  
+                                                                                                    
+Predicate Information (identified by operation id):                                                 
+---------------------------------------------------                                                 
+                                                                                                    
+   2 - access("SAL"=3000)                                                                           
+
+SQL> select * from
+  2  emp
+  3  where sal=3000 and deptno=10;
+
+no rows selected
+
+
+Execution Plan
+----------------------------------------------------------                                          
+Plan hash value: 1264431521                                                                         
+                                                                                                    
+--------------------------------------------------------------------------------------------------  
+| Id  | Operation                   | Name               | Rows  | Bytes | Cost (%CPU)| Time     |  
+--------------------------------------------------------------------------------------------------  
+|   0 | SELECT STATEMENT            |                    |     1 |    34 |     2   (0)| 00:00:01 |  
+|   1 |  TABLE ACCESS BY INDEX ROWID| EMP                |     1 |    34 |     2   (0)| 00:00:01 |  
+|*  2 |   INDEX RANGE SCAN          | EMP_SAL_DEPTNO_IND |     1 |       |     1   (0)| 00:00:01 |  
+--------------------------------------------------------------------------------------------------  
+                                                                                                    
+Predicate Information (identified by operation id):                                                 
+---------------------------------------------------                                                 
+                                                                                                    
+   2 - access("SAL"=3000 AND "DEPTNO"=10)                                                           
+
+SQL> drop index sal_ind;
+
+Index dropped.
+
+SQL> drop index emp_sal_deptnpo_ind ;
+drop index emp_sal_deptnpo_ind 
+           *
+ERROR at line 1:
+ORA-01418: specified index does not exist 
+
+
+SQL> drop index emp_sal_deptpo_ind ;
+drop index emp_sal_deptpo_ind 
+           *
+ERROR at line 1:
+ORA-01418: specified index does not exist 
+
+
+SQL> drop index emp_sal_deptno_ind ;
+
+Index dropped.
+
+SQL> select * from
+  2  emp
+  3  ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20               
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30               
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30               
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20               
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30               
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30               
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10               
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20               
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10               
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30               
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20               
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30               
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20               
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10               
+      1000 karthi                                                                                   
+      1001 kushal                                                                                   
+
+16 rows selected.
+
+
+Execution Plan
+----------------------------------------------------------                                          
+Plan hash value: 3956160932                                                                         
+                                                                                                    
+--------------------------------------------------------------------------                          
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |                          
+--------------------------------------------------------------------------                          
+|   0 | SELECT STATEMENT  |      |    16 |   544 |     3   (0)| 00:00:01 |                          
+|   1 |  TABLE ACCESS FULL| EMP  |    16 |   544 |     3   (0)| 00:00:01 |                          
+--------------------------------------------------------------------------                          
+
+SQL> set autotrace on explain;
+SQL> select * from
+  2  emp
+  3  where sal=3000 and deptno=10;
+
+no rows selected
+
+
+Execution Plan
+----------------------------------------------------------                                          
+Plan hash value: 3956160932                                                                         
+                                                                                                    
+--------------------------------------------------------------------------                          
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |                          
+--------------------------------------------------------------------------                          
+|   0 | SELECT STATEMENT  |      |     1 |    34 |     3   (0)| 00:00:01 |                          
+|*  1 |  TABLE ACCESS FULL| EMP  |     1 |    34 |     3   (0)| 00:00:01 |                          
+--------------------------------------------------------------------------                          
+                                                                                                    
+Predicate Information (identified by operation id):                                                 
+---------------------------------------------------                                                 
+                                                                                                    
+   1 - filter("SAL"=3000 AND "DEPTNO"=10)                                                           
+
+SQL> set autotrace off explain;
+SQL> select * from
+  2  emp
+  3  where sal=3000 and deptno=10;
+
+no rows selected
+
+SQL> create unique index empno_ind
+  2  on emp(empno);
+on emp(empno)
+       *
+ERROR at line 2:
+ORA-01408: such column list already indexed 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create unique index deptno_ind
+  2* on emp(deptno)
+SQL> /
+on emp(deptno)
+   *
+ERROR at line 2:
+ORA-01452: cannot CREATE UNIQUE INDEX; duplicate keys found 
+
+
+SQL> create unique index comm_ind
+  2  on emp(comm);
+
+Index created.
+
+SQL> select * from emp
+  2  where comm is not null;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30               
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30               
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30               
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30               
+
+SQL> set autotrace on explain;
+SQL> select * from emp
+  2  where comm is not null;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30               
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30               
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30               
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30               
+
+
+Execution Plan
+----------------------------------------------------------                                          
+Plan hash value: 3180366439                                                                         
+                                                                                                    
+----------------------------------------------------------------------------------------            
+| Id  | Operation                   | Name     | Rows  | Bytes | Cost (%CPU)| Time     |            
+----------------------------------------------------------------------------------------            
+|   0 | SELECT STATEMENT            |          |     4 |   136 |     2   (0)| 00:00:01 |            
+|   1 |  TABLE ACCESS BY INDEX ROWID| EMP      |     4 |   136 |     2   (0)| 00:00:01 |            
+|*  2 |   INDEX FULL SCAN           | COMM_IND |     4 |       |     1   (0)| 00:00:01 |            
+----------------------------------------------------------------------------------------            
+                                                                                                    
+Predicate Information (identified by operation id):                                                 
+---------------------------------------------------                                                 
+                                                                                                    
+   2 - filter("COMM" IS NOT NULL)                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> spool off;

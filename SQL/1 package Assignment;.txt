@@ -1,0 +1,23 @@
+1 package Assignment;
+2 import java.util.Scanner;
+3 public class Tyrescalc {
+4
+5 public static void calcTyres () {
+6     Scanner scanner = new Scanner (System.in);
+7
+8     System.out.println("Enter the number of dealerships:");
+9     int numDealers = scanner.nextInt();
+10    System.out.println(numDealers);
+11
+12    for (int i = 1; i <= numDealers; i++) {
+13        System.out.println("Enter number of cars and bikes for dealership " + i + " (separated by space):");
+14        int cars = scanner.nextInt();
+15        int bikes = scanner.nextInt();
+16        System.out.println(cars + " " + bikes);
+17
+18        int totalTyres = (cars * 4) + (bikes * 2);
+19        System.out.println("Total number of tyres in dealership" + i + " is (" + cars + " x 4) + (" + bikes + " x 2) = " + totalTyres);
+    scanner.close();
+ } // End of calcTyres method
+ public static void main(String[] args) {
+   calcTyres();

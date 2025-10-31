@@ -1,0 +1,744 @@
+SQL> select e1.ename,e2.ename
+  2  from emp e1,emp e2
+  3  where e1.mgr=e2.empno and e1.job='CLERK';
+
+ENAME      ENAME                                                                
+---------- ----------                                                           
+JAMES      BLAKE                                                                
+MILLER     CLARK                                                                
+ADAMS      SCOTT                                                                
+SMITH      FORD                                                                 
+
+SQL> select e1.ename,e2.job
+  2  from emp e1,emp e2
+  3  where e1.mgr=e2.empno and e2.deptno in(10,20);
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+FORD       MANAGER                                                              
+SCOTT      MANAGER                                                              
+MILLER     MANAGER                                                              
+ADAMS      ANALYST                                                              
+BLAKE      PRESIDENT                                                            
+JONES      PRESIDENT                                                            
+CLARK      PRESIDENT                                                            
+SMITH      ANALYST                                                              
+
+8 rows selected.
+
+SQL> select e1.ename,e2.job
+  2  from emp e1,emp e2
+  3  where ;
+where 
+     *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.sal
+  2  from emp e1,emp e2
+  3* where e1.mgr=e2.empno and e1.sal>2300 and e2.sal>2300
+SQL> /
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+SCOTT            2975                                                           
+FORD             2975                                                           
+BLAKE            5000                                                           
+JONES            5000                                                           
+CLARK            5000                                                           
+
+SQL> select e1.ename e2.hiredate
+  2  from emp e1,emp e2
+  3  where e1.hiredate>='31-12-81';
+select e1.ename e2.hiredate
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename e2.hiredate
+  2  from emp e1,emp e2
+  3* where e1.hiredate>='31-12-81' and e1.mgr=e2.empno
+SQL> /
+select e1.ename e2.hiredate
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename e2.hiredate
+  2  from emp e1,emp e2
+  3* where e1.hiredate<='31-12-81' and e1.mgr=e2.empno
+SQL> /
+select e1.ename e2.hiredate
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.hiredate
+  2  from emp e1,emp e2
+  3* where e1.hiredate<='31-12-81' and e1.mgr=e2.empno
+SQL> /
+where e1.hiredate<='31-12-81' and e1.mgr=e2.empno
+                   *
+ERROR at line 3:
+ORA-01843: not a valid month 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.hiredate
+  2  from emp e1,emp e2
+  3* where e1.hiredate<'01-01-82' and e1.mgr=e2.empno
+SQL> /
+where e1.hiredate<'01-01-82' and e1.mgr=e2.empno
+                  *
+ERROR at line 3:
+ORA-01843: not a valid month 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.hiredate
+  2  from emp e1,emp e2
+  3* where e1.hiredate<'01-JAN-82' and e1.mgr=e2.empno
+SQL> /
+
+ENAME      HIREDATE                                                             
+---------- ---------                                                            
+FORD       02-APR-81                                                            
+WARD       01-MAY-81                                                            
+ALLEN      01-MAY-81                                                            
+MARTIN     01-MAY-81                                                            
+JAMES      01-MAY-81                                                            
+TURNER     01-MAY-81                                                            
+CLARK      17-NOV-81                                                            
+BLAKE      17-NOV-81                                                            
+JONES      17-NOV-81                                                            
+SMITH      03-DEC-81                                                            
+
+10 rows selected.
+
+SQL> select e1.ename,e2.comm
+  2  from emp e1,emp e2
+  3  where e1.mgr=e2.empno and e1.job='SALESMAN' and e2.deptno=30;
+
+ENAME            COMM                                                           
+---------- ----------                                                           
+ALLEN                                                                           
+TURNER                                                                          
+MARTIN                                                                          
+WARD                                                                            
+
+SQL> select e1.ename,e2.ename
+  2  from emp e1,emp e2
+  3  where ;
+where 
+     *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.ename,e1.sal,e2.sal
+  2  from emp e1,emp e2
+  3* where e1.sal>e2.sal
+SQL> /
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+KING       FORD             5000       3000                                     
+KING       SCOTT            5000       3000                                     
+KING       JONES            5000       2975                                     
+KING       BLAKE            5000       2850                                     
+KING       CLARK            5000       2450                                     
+KING       ALLEN            5000       1600                                     
+KING       TURNER           5000       1500                                     
+KING       MILLER           5000       1300                                     
+KING       WARD             5000       1250                                     
+KING       MARTIN           5000       1250                                     
+KING       ADAMS            5000       1100                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+KING       JAMES            5000        950                                     
+KING       SMITH            5000        800                                     
+FORD       JONES            3000       2975                                     
+FORD       BLAKE            3000       2850                                     
+FORD       CLARK            3000       2450                                     
+FORD       ALLEN            3000       1600                                     
+FORD       TURNER           3000       1500                                     
+FORD       MILLER           3000       1300                                     
+FORD       WARD             3000       1250                                     
+FORD       MARTIN           3000       1250                                     
+FORD       ADAMS            3000       1100                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+FORD       JAMES            3000        950                                     
+FORD       SMITH            3000        800                                     
+SCOTT      JONES            3000       2975                                     
+SCOTT      BLAKE            3000       2850                                     
+SCOTT      CLARK            3000       2450                                     
+SCOTT      ALLEN            3000       1600                                     
+SCOTT      TURNER           3000       1500                                     
+SCOTT      MILLER           3000       1300                                     
+SCOTT      WARD             3000       1250                                     
+SCOTT      MARTIN           3000       1250                                     
+SCOTT      ADAMS            3000       1100                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+SCOTT      JAMES            3000        950                                     
+SCOTT      SMITH            3000        800                                     
+JONES      BLAKE            2975       2850                                     
+JONES      CLARK            2975       2450                                     
+JONES      ALLEN            2975       1600                                     
+JONES      TURNER           2975       1500                                     
+JONES      MILLER           2975       1300                                     
+JONES      WARD             2975       1250                                     
+JONES      MARTIN           2975       1250                                     
+JONES      ADAMS            2975       1100                                     
+JONES      JAMES            2975        950                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+JONES      SMITH            2975        800                                     
+BLAKE      CLARK            2850       2450                                     
+BLAKE      ALLEN            2850       1600                                     
+BLAKE      TURNER           2850       1500                                     
+BLAKE      MILLER           2850       1300                                     
+BLAKE      WARD             2850       1250                                     
+BLAKE      MARTIN           2850       1250                                     
+BLAKE      ADAMS            2850       1100                                     
+BLAKE      JAMES            2850        950                                     
+BLAKE      SMITH            2850        800                                     
+CLARK      ALLEN            2450       1600                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+CLARK      TURNER           2450       1500                                     
+CLARK      MILLER           2450       1300                                     
+CLARK      WARD             2450       1250                                     
+CLARK      MARTIN           2450       1250                                     
+CLARK      ADAMS            2450       1100                                     
+CLARK      JAMES            2450        950                                     
+CLARK      SMITH            2450        800                                     
+ALLEN      TURNER           1600       1500                                     
+ALLEN      MILLER           1600       1300                                     
+ALLEN      WARD             1600       1250                                     
+ALLEN      MARTIN           1600       1250                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+ALLEN      ADAMS            1600       1100                                     
+ALLEN      JAMES            1600        950                                     
+ALLEN      SMITH            1600        800                                     
+TURNER     MILLER           1500       1300                                     
+TURNER     WARD             1500       1250                                     
+TURNER     MARTIN           1500       1250                                     
+TURNER     ADAMS            1500       1100                                     
+TURNER     JAMES            1500        950                                     
+TURNER     SMITH            1500        800                                     
+MILLER     WARD             1300       1250                                     
+MILLER     MARTIN           1300       1250                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+MILLER     ADAMS            1300       1100                                     
+MILLER     JAMES            1300        950                                     
+MILLER     SMITH            1300        800                                     
+WARD       ADAMS            1250       1100                                     
+WARD       JAMES            1250        950                                     
+WARD       SMITH            1250        800                                     
+MARTIN     ADAMS            1250       1100                                     
+MARTIN     JAMES            1250        950                                     
+MARTIN     SMITH            1250        800                                     
+ADAMS      JAMES            1100        950                                     
+ADAMS      SMITH            1100        800                                     
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+JAMES      SMITH             950        800                                     
+
+89 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.ename,e1.sal,e2.sal
+  2  from emp e1,emp e2
+  3* where e1.sal>e2.sal and e1.mgr=e2.empno
+SQL> /
+
+ENAME      ENAME             SAL        SAL                                     
+---------- ---------- ---------- ----------                                     
+FORD       JONES            3000       2975                                     
+SCOTT      JONES            3000       2975                                     
+
+SQL> select e1.ename,e1.hiredate,e2.ename,e2.hiredate
+  2  from emp e1,emp e2
+  3  where e2.hiredate < e1.hiredate and e1.mgr=e2.empno;
+
+ENAME      HIREDATE  ENAME      HIREDATE                                        
+---------- --------- ---------- ---------                                       
+FORD       03-DEC-81 JONES      02-APR-81                                       
+SCOTT      19-APR-87 JONES      02-APR-81                                       
+TURNER     08-SEP-81 BLAKE      01-MAY-81                                       
+JAMES      03-DEC-81 BLAKE      01-MAY-81                                       
+MARTIN     28-SEP-81 BLAKE      01-MAY-81                                       
+MILLER     23-JAN-82 CLARK      09-JUN-81                                       
+ADAMS      23-MAY-87 SCOTT      19-APR-87                                       
+
+7 rows selected.
+
+SQL> select e1.ename e2.ename
+  2  from emp e1,emp e2
+  3  where e1.job=e2.job;
+select e1.ename e2.ename
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.ename
+  2  from emp e1,emp e2
+  3* where e1.job=e2.job
+SQL> /
+
+ENAME      ENAME                                                                
+---------- ----------                                                           
+MILLER     SMITH                                                                
+JAMES      SMITH                                                                
+ADAMS      SMITH                                                                
+SMITH      SMITH                                                                
+TURNER     ALLEN                                                                
+MARTIN     ALLEN                                                                
+WARD       ALLEN                                                                
+ALLEN      ALLEN                                                                
+TURNER     WARD                                                                 
+MARTIN     WARD                                                                 
+WARD       WARD                                                                 
+
+ENAME      ENAME                                                                
+---------- ----------                                                           
+ALLEN      WARD                                                                 
+CLARK      JONES                                                                
+BLAKE      JONES                                                                
+JONES      JONES                                                                
+TURNER     MARTIN                                                               
+MARTIN     MARTIN                                                               
+WARD       MARTIN                                                               
+ALLEN      MARTIN                                                               
+CLARK      BLAKE                                                                
+BLAKE      BLAKE                                                                
+JONES      BLAKE                                                                
+
+ENAME      ENAME                                                                
+---------- ----------                                                           
+CLARK      CLARK                                                                
+BLAKE      CLARK                                                                
+JONES      CLARK                                                                
+FORD       SCOTT                                                                
+SCOTT      SCOTT                                                                
+KING       KING                                                                 
+TURNER     TURNER                                                               
+MARTIN     TURNER                                                               
+WARD       TURNER                                                               
+ALLEN      TURNER                                                               
+MILLER     ADAMS                                                                
+
+ENAME      ENAME                                                                
+---------- ----------                                                           
+JAMES      ADAMS                                                                
+ADAMS      ADAMS                                                                
+SMITH      ADAMS                                                                
+MILLER     JAMES                                                                
+JAMES      JAMES                                                                
+ADAMS      JAMES                                                                
+SMITH      JAMES                                                                
+FORD       FORD                                                                 
+SCOTT      FORD                                                                 
+MILLER     MILLER                                                               
+JAMES      MILLER                                                               
+
+ENAME      ENAME                                                                
+---------- ----------                                                           
+ADAMS      MILLER                                                               
+SMITH      MILLER                                                               
+
+46 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.ename
+  2  from emp e1,emp e2
+  3* where e1.job=e2.job and e1.mgr=e2.empno
+SQL> /
+
+no rows selected
+
+SQL> select e1.ename,e2.ename
+  2  from emp e1,emp e2
+  3  where e1.mgr=e2.empno and e2.job='MANAGER';
+
+ENAME      ENAME                                                                
+---------- ----------                                                           
+FORD       JONES                                                                
+SCOTT      JONES                                                                
+TURNER     BLAKE                                                                
+ALLEN      BLAKE                                                                
+WARD       BLAKE                                                                
+JAMES      BLAKE                                                                
+MARTIN     BLAKE                                                                
+MILLER     CLARK                                                                
+
+8 rows selected.
+
+SQL> select e1.ename,e2.ename,sal*12 "ANNUAL SALARY"
+  2  from emp e1,emp e2
+  3  where e1.mgr=e2.empno and e1.deptno in(10,20) and e2.sal>e1.sal;
+select e1.ename,e2.ename,sal*12 "ANNUAL SALARY"
+                         *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.ename,e2.sal*12 "ANNUAL SALARY"
+  2  from emp e1,emp e2
+  3* where e1.mgr=e2.empno and e1.deptno in(10,20) and e2.sal>e1.sal
+SQL> /
+
+ENAME      ENAME      ANNUAL SALARY                                             
+---------- ---------- -------------                                             
+MILLER     CLARK              29400                                             
+ADAMS      SCOTT              36000                                             
+CLARK      KING               60000                                             
+JONES      KING               60000                                             
+SMITH      FORD               36000                                             
+
+SQL> select e1.ename,e2.job
+  2  from emp e1,emp e2;
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+SMITH      CLERK                                                                
+ALLEN      CLERK                                                                
+WARD       CLERK                                                                
+JONES      CLERK                                                                
+MARTIN     CLERK                                                                
+BLAKE      CLERK                                                                
+CLARK      CLERK                                                                
+SCOTT      CLERK                                                                
+KING       CLERK                                                                
+TURNER     CLERK                                                                
+ADAMS      CLERK                                                                
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+JAMES      CLERK                                                                
+FORD       CLERK                                                                
+MILLER     CLERK                                                                
+SMITH      SALESMAN                                                             
+ALLEN      SALESMAN                                                             
+WARD       SALESMAN                                                             
+JONES      SALESMAN                                                             
+MARTIN     SALESMAN                                                             
+BLAKE      SALESMAN                                                             
+CLARK      SALESMAN                                                             
+SCOTT      SALESMAN                                                             
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+KING       SALESMAN                                                             
+TURNER     SALESMAN                                                             
+ADAMS      SALESMAN                                                             
+JAMES      SALESMAN                                                             
+FORD       SALESMAN                                                             
+MILLER     SALESMAN                                                             
+SMITH      SALESMAN                                                             
+ALLEN      SALESMAN                                                             
+WARD       SALESMAN                                                             
+JONES      SALESMAN                                                             
+MARTIN     SALESMAN                                                             
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+BLAKE      SALESMAN                                                             
+CLARK      SALESMAN                                                             
+SCOTT      SALESMAN                                                             
+KING       SALESMAN                                                             
+TURNER     SALESMAN                                                             
+ADAMS      SALESMAN                                                             
+JAMES      SALESMAN                                                             
+FORD       SALESMAN                                                             
+MILLER     SALESMAN                                                             
+SMITH      MANAGER                                                              
+ALLEN      MANAGER                                                              
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+WARD       MANAGER                                                              
+JONES      MANAGER                                                              
+MARTIN     MANAGER                                                              
+BLAKE      MANAGER                                                              
+CLARK      MANAGER                                                              
+SCOTT      MANAGER                                                              
+KING       MANAGER                                                              
+TURNER     MANAGER                                                              
+ADAMS      MANAGER                                                              
+JAMES      MANAGER                                                              
+FORD       MANAGER                                                              
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+MILLER     MANAGER                                                              
+SMITH      SALESMAN                                                             
+ALLEN      SALESMAN                                                             
+WARD       SALESMAN                                                             
+JONES      SALESMAN                                                             
+MARTIN     SALESMAN                                                             
+BLAKE      SALESMAN                                                             
+CLARK      SALESMAN                                                             
+SCOTT      SALESMAN                                                             
+KING       SALESMAN                                                             
+TURNER     SALESMAN                                                             
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+ADAMS      SALESMAN                                                             
+JAMES      SALESMAN                                                             
+FORD       SALESMAN                                                             
+MILLER     SALESMAN                                                             
+SMITH      MANAGER                                                              
+ALLEN      MANAGER                                                              
+WARD       MANAGER                                                              
+JONES      MANAGER                                                              
+MARTIN     MANAGER                                                              
+BLAKE      MANAGER                                                              
+CLARK      MANAGER                                                              
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+SCOTT      MANAGER                                                              
+KING       MANAGER                                                              
+TURNER     MANAGER                                                              
+ADAMS      MANAGER                                                              
+JAMES      MANAGER                                                              
+FORD       MANAGER                                                              
+MILLER     MANAGER                                                              
+SMITH      MANAGER                                                              
+ALLEN      MANAGER                                                              
+WARD       MANAGER                                                              
+JONES      MANAGER                                                              
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+MARTIN     MANAGER                                                              
+BLAKE      MANAGER                                                              
+CLARK      MANAGER                                                              
+SCOTT      MANAGER                                                              
+KING       MANAGER                                                              
+TURNER     MANAGER                                                              
+ADAMS      MANAGER                                                              
+JAMES      MANAGER                                                              
+FORD       MANAGER                                                              
+MILLER     MANAGER                                                              
+SMITH      ANALYST                                                              
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+ALLEN      ANALYST                                                              
+WARD       ANALYST                                                              
+JONES      ANALYST                                                              
+MARTIN     ANALYST                                                              
+BLAKE      ANALYST                                                              
+CLARK      ANALYST                                                              
+SCOTT      ANALYST                                                              
+KING       ANALYST                                                              
+TURNER     ANALYST                                                              
+ADAMS      ANALYST                                                              
+JAMES      ANALYST                                                              
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+FORD       ANALYST                                                              
+MILLER     ANALYST                                                              
+SMITH      PRESIDENT                                                            
+ALLEN      PRESIDENT                                                            
+WARD       PRESIDENT                                                            
+JONES      PRESIDENT                                                            
+MARTIN     PRESIDENT                                                            
+BLAKE      PRESIDENT                                                            
+CLARK      PRESIDENT                                                            
+SCOTT      PRESIDENT                                                            
+KING       PRESIDENT                                                            
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+TURNER     PRESIDENT                                                            
+ADAMS      PRESIDENT                                                            
+JAMES      PRESIDENT                                                            
+FORD       PRESIDENT                                                            
+MILLER     PRESIDENT                                                            
+SMITH      SALESMAN                                                             
+ALLEN      SALESMAN                                                             
+WARD       SALESMAN                                                             
+JONES      SALESMAN                                                             
+MARTIN     SALESMAN                                                             
+BLAKE      SALESMAN                                                             
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+CLARK      SALESMAN                                                             
+SCOTT      SALESMAN                                                             
+KING       SALESMAN                                                             
+TURNER     SALESMAN                                                             
+ADAMS      SALESMAN                                                             
+JAMES      SALESMAN                                                             
+FORD       SALESMAN                                                             
+MILLER     SALESMAN                                                             
+SMITH      CLERK                                                                
+ALLEN      CLERK                                                                
+WARD       CLERK                                                                
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+JONES      CLERK                                                                
+MARTIN     CLERK                                                                
+BLAKE      CLERK                                                                
+CLARK      CLERK                                                                
+SCOTT      CLERK                                                                
+KING       CLERK                                                                
+TURNER     CLERK                                                                
+ADAMS      CLERK                                                                
+JAMES      CLERK                                                                
+FORD       CLERK                                                                
+MILLER     CLERK                                                                
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+SMITH      CLERK                                                                
+ALLEN      CLERK                                                                
+WARD       CLERK                                                                
+JONES      CLERK                                                                
+MARTIN     CLERK                                                                
+BLAKE      CLERK                                                                
+CLARK      CLERK                                                                
+SCOTT      CLERK                                                                
+KING       CLERK                                                                
+TURNER     CLERK                                                                
+ADAMS      CLERK                                                                
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+JAMES      CLERK                                                                
+FORD       CLERK                                                                
+MILLER     CLERK                                                                
+SMITH      ANALYST                                                              
+ALLEN      ANALYST                                                              
+WARD       ANALYST                                                              
+JONES      ANALYST                                                              
+MARTIN     ANALYST                                                              
+BLAKE      ANALYST                                                              
+CLARK      ANALYST                                                              
+SCOTT      ANALYST                                                              
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+KING       ANALYST                                                              
+TURNER     ANALYST                                                              
+ADAMS      ANALYST                                                              
+JAMES      ANALYST                                                              
+FORD       ANALYST                                                              
+MILLER     ANALYST                                                              
+SMITH      CLERK                                                                
+ALLEN      CLERK                                                                
+WARD       CLERK                                                                
+JONES      CLERK                                                                
+MARTIN     CLERK                                                                
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+BLAKE      CLERK                                                                
+CLARK      CLERK                                                                
+SCOTT      CLERK                                                                
+KING       CLERK                                                                
+TURNER     CLERK                                                                
+ADAMS      CLERK                                                                
+JAMES      CLERK                                                                
+FORD       CLERK                                                                
+MILLER     CLERK                                                                
+
+196 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select e1.ename,e2.job
+  2  from emp e1,emp e2
+  3* where e1.mgr=e2.empno
+SQL> /
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+FORD       MANAGER                                                              
+SCOTT      MANAGER                                                              
+TURNER     MANAGER                                                              
+ALLEN      MANAGER                                                              
+WARD       MANAGER                                                              
+JAMES      MANAGER                                                              
+MARTIN     MANAGER                                                              
+MILLER     MANAGER                                                              
+ADAMS      ANALYST                                                              
+BLAKE      PRESIDENT                                                            
+JONES      PRESIDENT                                                            
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+CLARK      PRESIDENT                                                            
+SMITH      ANALYST                                                              
+
+13 rows selected.
+
+SQL> select e1.ename,e2.sal
+  2  from emp e1,emp e2
+  3  where e1.mgr=e2.empno and e2.sal like '%50';
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+TURNER           2850                                                           
+ALLEN            2850                                                           
+WARD             2850                                                           
+JAMES            2850                                                           
+MARTIN           2850                                                           
+MILLER           2450                                                           
+
+6 rows selected.
+
+SQL> spool off;

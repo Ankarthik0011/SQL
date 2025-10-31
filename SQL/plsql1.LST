@@ -1,0 +1,790 @@
+SQL> declare
+  2  v_sal emp.sal%type ;
+  3  begin
+  4  select sal into v_sal
+  5  from emp
+  6  where ename='king';
+  7  dbms_output.put_line(v_sal);
+  8  exception
+  9  when no_data_found then
+ 10  dbms_output.put_line('no employees available');
+ 11  end;
+ 12  /
+no employees available                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL>   declare
+  2      v_sal emp.sal%type ;
+  3      begin
+  4      select sal into v_sal
+  5     from emp
+  6      where ename='KING';
+  7      dbms_output.put_line(v_sal);
+  8     end;
+  9  /
+5000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1    declare
+  2  V_name varchar(20);
+  3      v_sal emp.sal%type ;
+  4      begin
+  5      select ename,sal into v_name,v_sal
+  6     from emp
+  7      where sal>2000;
+  8      dbms_output.put_line(v_name||','||v_sal);
+  9     exception
+ 10  when no_data_found then
+ 11  dbms_output.put_line('no employees available');
+ 12  when too_many_employees then
+ 13  dbms_output.put_line('too many records are selected');
+ 14* end;
+SQL> /
+when too_many_employees then
+     *
+ERROR at line 12:
+ORA-06550: line 12, column 6: 
+PLS-00201: identifier 'TOO_MANY_EMPLOYEES' must be declared 
+ORA-06550: line 0, column 0: 
+PL/SQL: Compilation unit analysis terminated 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1    declare
+  2  V_name varchar(20);
+  3      v_sal emp.sal%type ;
+  4      begin
+  5      select ename,sal into v_name,v_sal
+  6     from emp
+  7      where sal>2000;
+  8      dbms_output.put_line(v_name||','||v_sal);
+  9     exception
+ 10  when no_data_found then
+ 11  dbms_output.put_line('no employees available');
+ 12  when too_many_rows then
+ 13  dbms_output.put_line('too many records are selected');
+ 14* end;
+SQL> /
+too many records are selected                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1    declare
+  2  V_name varchar(20);
+  3      v_sal emp.sal%type ;
+  4      begin
+  5      select ename,sal/0 into v_name,v_sal
+  6     from emp
+  7      where sal>2000;
+  8      dbms_output.put_line(v_name||','||v_sal);
+  9     exception
+ 10  when no_data_found then
+ 11  dbms_output.put_line('no employees available');
+ 12  when too_many_rows then
+ 13  dbms_output.put_line('too many records are selected');
+ 14* end;
+SQL> 
+SQL> /
+  declare
+*
+ERROR at line 1:
+ORA-01476: divisor is equal to zero 
+ORA-06512: at line 5 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1    declare
+  2  V_name varchar(20);
+  3      v_sal emp.sal%type ;
+  4      begin
+  5      select ename,sal/0 into v_name,v_sal
+  6     from emp
+  7      where sal>2000;
+  8      dbms_output.put_line(v_name||','||v_sal);
+  9     exception
+ 10  when no_data_found then
+ 11  dbms_output.put_line('no employees available');
+ 12  when too_many_rows then
+ 13  dbms_output.put_line('too many records are selected');
+ 14  when zero-divide then
+ 15  dbms_output.put_line('divisor cant be a zero');
+ 16* end;
+SQL> /
+when zero-divide then
+         *
+ERROR at line 14:
+ORA-06550: line 14, column 10: 
+PLS-00103: Encountered the symbol "-" when expecting one of the following: 
+. then or 
+The symbol ". was inserted before "-" to continue. 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1    declare
+  2  V_name varchar(20);
+  3      v_sal emp.sal%type ;
+  4      begin
+  5      select ename,sal/0 into v_name,v_sal
+  6     from emp
+  7      where sal>2000;
+  8      dbms_output.put_line(v_name||','||v_sal);
+  9     exception
+ 10  when no_data_found then
+ 11  dbms_output.put_line('no employees available');
+ 12  when too_many_rows then
+ 13  dbms_output.put_line('too many records are selected');
+ 14  when zero_divide then
+ 15  dbms_output.put_line('divisor cant be a zero');
+ 16* end;
+SQL> /
+divisor cant be a zero                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1    declare
+  2  a int :=10;
+  3  b int := 0;
+  4  c int;
+  5   begin
+  6  c := a/b;
+  7  dbms_output.put_line(c);
+  8  exception   
+  9  when zero_divide then
+ 10  dbms_output.put_line('divisor cant be a zero');
+ 11* end;
+SQL> /
+divisor cant be a zero                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1    declare
+  2  a int :=10;
+  3  b int := 0;
+  4  c int;
+  5   begin
+  6  c := a/b;
+  7  dbms_output.put_line(c);
+  8  exception   
+  9  when zero_divide then
+ 10  dbms_output.put_line('divisor cant be a zero');
+ 11* end;
+SQL> /
+divisor cant be a zero                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  v_name varchar(20);
+  3  cursor c1 is select ename from emp;
+  4  brgin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%not found;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11  end;
+ 12  /
+open c1;
+     *
+ERROR at line 5:
+ORA-06550: line 5, column 6: 
+PLS-00103: Encountered the symbol "C1" when expecting one of the following: 
+:= . ( @ % ; not null range default character 
+ORA-06550: line 8, column 14: 
+PLS-00103: Encountered the symbol "NOT" when expecting one of the following: 
+type <an identifier> <a double-quoted delimited-identifier> 
+ORA-06550: line 11, column 4: 
+PLS-00103: Encountered the symbol "end-of-file" when expecting one of the following: 
+end not pragma final instantiable order overriding static 
+member constructor map 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  brgin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%not found;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11* end;
+SQL> /
+open c1;
+     *
+ERROR at line 5:
+ORA-06550: line 5, column 6: 
+PLS-00103: Encountered the symbol "C1" when expecting one of the following: 
+:= . ( @ % ; not null range default character 
+ORA-06550: line 8, column 14: 
+PLS-00103: Encountered the symbol "NOT" when expecting one of the following: 
+type <an identifier> <a double-quoted delimited-identifier> 
+ORA-06550: line 11, column 4: 
+PLS-00103: Encountered the symbol "end-of-file" when expecting one of the following: 
+end not pragma final instantiable order overriding static 
+member constructor map 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%not found;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11* end;
+SQL> /
+exit when c1%not found;
+             *
+ERROR at line 8:
+ORA-06550: line 8, column 14: 
+PLS-00103: Encountered the symbol "NOT" when expecting one of the following: 
+type <an identifier> <a double-quoted delimited-identifier> 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11* end;
+SQL> /
+SMITH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+ALLEN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+KING                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+TURNER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+ADAMS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  loop
+  6  fetch c1 into v_name;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(v_name);
+  9  end loop;
+ 10* end;
+SQL> /
+declare
+*
+ERROR at line 1:
+ORA-01001: invalid cursor 
+ORA-06512: at line 6 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  loop
+  6  fetch c1 into v_name;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(v_name);
+  9  end loop;
+ 10  close c1;
+ 11  when invalid_cursor then
+ 12  dbms_output.put_line('first open the cursor');
+ 13* end;
+SQL> /
+when invalid_cursor then
+*
+ERROR at line 11:
+ORA-06550: line 11, column 1: 
+PLS-00103: Encountered the symbol "WHEN" when expecting one of the following: 
+( begin case declare end exception exit for goto if loop mod 
+null pragma raise return select update while with 
+<an identifier> <a double-quoted delimited-identifier> 
+<a bind variable> << continue close current delete fetch lock 
+insert open rollback savepoint set sql execute commit forall 
+merge pipe purge 
+The symbol "case" was substituted for "WHEN" to continue. 
+ORA-06550: line 13, column 4: 
+PLS-00103: Encountered the symbol ";" when expecting one of the following: 
+case 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  loop
+  6  fetch c1 into v_name;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(v_name);
+  9  end loop;
+ 10  close c1;
+ 11  exception
+ 12  when invalid_cursor then
+ 13  dbms_output.put_line('first open the cursor');
+ 14* end;
+SQL> /
+first open the cursor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11  exception
+ 12  when invalid_cursor then
+ 13  dbms_output.put_line('first open the cursor');
+ 14  open c1;
+ 15  loop
+ 16  fetch c1 into v_name;
+ 17  exit when c1%notfound;
+ 18  dbms_output.put_line(v_name);
+ 19  end loop;
+ 20  close c1;
+ 21  exception
+ 22  when invalid_cursor then
+ 23  dbms_output.put_line('first open the cursor');
+ 24* end;
+ 25  /
+exception
+*
+ERROR at line 21:
+ORA-06550: line 21, column 1: 
+PLS-00103: Encountered the symbol "EXCEPTION" when expecting one of the following: 
+( begin case declare end exit for goto if loop mod null 
+pragma raise return select update when while with 
+<an identifier> <a double-quoted delimited-identifier> 
+<a bind variable> << continue close current delete fetch lock 
+insert open rollback savepoint set sql execute commit forall 
+merge pipe purge 
+ORA-06550: line 24, column 4: 
+PLS-00103: Encountered the symbol "end-of-file" when expecting one of the following: 
+end not pragma final instantiable order overriding static 
+member constructor map 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11  exception
+ 12  when invalid_cursor then
+ 13  dbms_output.put_line('first open the cursor');
+ 14  open c1;
+ 15  loop
+ 16  fetch c1 into v_name;
+ 17  exit when c1%notfound;
+ 18  dbms_output.put_line(v_name);
+ 19  end loop;
+ 20* end;
+SQL> /
+SMITH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+ALLEN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+KING                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+TURNER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+ADAMS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11  exception
+ 12  when invalid_cursor then
+ 13  dbms_output.put_line('first open the cursor');
+ 14  open c1;
+ 15  loop
+ 16  fetch c1 into v_name;
+ 17  exit when c1%notfound;
+ 18  dbms_output.put_line(v_name);
+ 19  end loop;
+ 20  close c1;
+ 21* end;
+SQL> /
+SMITH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+ALLEN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+KING                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+TURNER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+ADAMS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11  open c1;
+ 12  loop
+ 13  fetch c1 into v_name;
+ 14  exit when c1%notfound;
+ 15  dbms_output.put_line(v_name);
+ 16  end loop;
+ 17  exception
+ 18  when invalid_cursor then
+ 19  dbms_output.put_line('first open the cursor');
+ 20* end;
+SQL> /
+SMITH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+ALLEN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+KING                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+TURNER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+ADAMS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+declare
+*
+ERROR at line 1:
+ORA-06511: PL/SQL: cursor already open 
+ORA-06512: at line 3 
+ORA-06512: at line 11 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  open c1;
+  6  loop
+  7  fetch c1 into v_name;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(v_name);
+ 10  end loop;
+ 11  open c1;
+ 12  loop
+ 13  fetch c1 into v_name;
+ 14  exit when c1%notfound;
+ 15  dbms_output.put_line(v_name);
+ 16  end loop;
+ 17  exception
+ 18  when cursor_already_open then
+ 19  dbms_output.put_line('first close the cursor');
+ 20* end;
+SQL> /
+SMITH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+ALLEN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+SCOTT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+KING                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+TURNER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+ADAMS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+JAMES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+FORD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+MILLER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+first close the cursor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  loop
+  6  fetch c1 into v_name;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(v_name);
+  9  end loop;
+ 10  close c1;
+ 11  exception
+ 12  when cursor_already_open then
+ 13  dbms_output.put_line('first close the cursor');
+ 14* end;
+SQL> /
+declare
+*
+ERROR at line 1:
+ORA-01001: invalid cursor 
+ORA-06512: at line 6 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  loop
+  6  fetch c1 into v_name;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(v_name);
+  9  end loop;
+ 10  close c1;
+ 11  exception
+ 12  when others then
+ 13  dbms_output.put_line('first close the cursor');
+ 14* end;
+SQL> /
+first close the cursor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  loop
+  6  fetch c1 into v_name;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(v_name);
+  9  end loop;
+ 10  close c1;
+ 11  exception
+ 12  when others then
+ 13  dbms_output.put_line('Error : '||sqlerrm);
+ 14* end;
+SQL> /
+Error : ORA-01001: invalid cursor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_name emp.ename%type;
+  3  cursor c1 is select ename from emp;
+  4  begin
+  5  loop
+  6  fetch c1 into v_name;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(v_name);
+  9  end loop;
+ 10  close c1;
+ 11  exception
+ 12  when others then
+ 13  dbms_output.put_line('Errorcode : '||sqlcode);
+ 14  dbms_output.put_line('Error : '||sqlerrm);
+ 15* end;
+SQL> /
+Errorcode : -1001                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+Error : ORA-01001: invalid cursor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+PL/SQL procedure successfully completed.
+
+SQL>   declare
+  2  CURSOR C1 IS SELECT * FROM EMP;
+  3    I EMP%ROWTYPE;
+  4  BEGIN
+  5    OPEN C1;
+  6     LOOP
+  7      FETCH C1 INTO I;
+  8      EXIT WHEN C1%NOTFOUND;
+  9       DBMS_OUTPUT.PUT_LINE (I.ENAME||' '||I.SAL);
+ 10    END LOOP;
+ 11   OPEN C1;
+ 12  EXCEPTION
+ 13   WHEN CURSOR_ALREADY_OPEN THEN
+ 14     DBMS_OUTPUT.PUT_LINE ('BEFORE REOPEN WE MUST CLOSE THE CURSOR');
+ 15  END;
+ 16  /
+SMITH 800                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+ALLEN 1600                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+WARD 1250                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+JONES 2975                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+MARTIN 1250                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+BLAKE 2850                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+CLARK 2450                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SCOTT 3000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+KING 5000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+TURNER 1500                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+ADAMS 1100                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+JAMES 950                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+FORD 3000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+MILLER 1300                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+BEFORE REOPEN WE MUST CLOSE THE CURSOR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2   Z NUMBER (10);
+  3  BEGIN
+  4   Z := 'X' + 'Y';
+  5    DBMS_OUTPUT.PUT_LINE (Z);
+  6  EXCEPTION
+  7   WHEN VALUE_ERROR THEN
+  8    DBMS_OUTPUT.PUT_LINE ('ENTER PROPER DATA ONLY');
+  9  END;
+ 10  /
+ENTER PROPER DATA ONLY                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2   Z NUMBER(5);
+  3  BEGIN
+  4   Z := '123456';
+  5    DBMS_OUTPUT.PUT_LINE(Z);
+  6  EXCEPTION
+  7   WHEN VALUE_ERROR THEN
+  8    DBMS_OUTPUT.PUT_LINE('VALUE ERROR OCCURRED: CANNOT ASSIGN THIS VALUE.');
+  9  END;
+ 10  /
+VALUE ERROR OCCURRED: CANNOT ASSIGN THIS VALUE.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  DECLARE
+  2   Z NUMBER(5);
+  3  BEGIN
+  4   Z := '123456';
+  5    DBMS_OUTPUT.PUT_LINE(Z);
+  6  EXCEPTION
+  7   WHEN VALUE_ERROR THEN
+  8    DBMS_OUTPUT.PUT_LINE('VALUE ERROR OCCURRED: CANNOT ASSIGN THIS VALUE.');
+  9* END;
+SQL> /
+VALUE ERROR OCCURRED: CANNOT ASSIGN THIS VALUE.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  DECLARE
+  2   Z varchar(5);
+  3  BEGIN
+  4   Z := '123456';
+  5    DBMS_OUTPUT.PUT_LINE(Z);
+  6  EXCEPTION
+  7   WHEN VALUE_ERROR THEN
+  8    DBMS_OUTPUT.PUT_LINE('VALUE ERROR OCCURRED: CANNOT ASSIGN THIS VALUE.');
+  9* END;
+SQL> /
+VALUE ERROR OCCURRED: CANNOT ASSIGN THIS VALUE.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off;

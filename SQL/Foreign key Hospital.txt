@@ -1,0 +1,29 @@
+alter table patient
+add constraint fk_doctor_id foreign key(doctor_id) references doctor (doctor_id);
+
+
+alter table Laboratory
+add constraint fk_patient_id foreign key(patient_id) references patient (patient_id);
+
+alter table Laboratory
+add constraint fk1_doctor_id foreign key(doctor_id) references doctor (doctor_id);
+
+
+alter table Inpatient
+add constraint fk_Room_no foreign key(Room_no) references doctor (Room_no);
+
+
+alter table Inpatient
+add constraint fk_lab_no foreign key(lab_no) references Laboratory (lab_no);
+
+
+alter table Outpatient
+add constraint fk1_lab_no foreign key(lab_no) references Laboratory (lab_no);
+
+
+alter table Bill
+add constraint fk1_patient_id foreign key(patient_id) references patient (patient_id);
+
+
+
+

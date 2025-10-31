@@ -1,0 +1,404 @@
+SQL>  select count(*),deptno
+  2    2  from emp
+  3    3  group by deptno
+  4    3  group by deptno;
+  2  from emp
+  *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   select count(*),deptno
+  2    2  from emp
+  3    3  group by deptno
+  4*   3  having count(*)>1
+SQL> /
+  2  from emp
+  *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   select count(*),deptno
+  2     from emp
+  3      group by deptno
+  4*     having count(*)>1
+SQL> /
+
+  COUNT(*)     DEPTNO                                                                               
+---------- ----------                                                                               
+         6         30                                                                               
+         5         20                                                                               
+         3         10                                                                               
+
+SQL> select deptno,sum(sal)
+  2  from emp
+  3  group by deptno
+  4  having count(*)>3;
+
+    DEPTNO   SUM(SAL)                                                                               
+---------- ----------                                                                               
+        30       9400                                                                               
+        20      10875                                                                               
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(*),deptno,sum(sal)
+  2  from emp
+  3  group by deptno
+  4* having count(*)>3
+SQL> /
+
+  COUNT(*)     DEPTNO   SUM(SAL)                                                                    
+---------- ---------- ----------                                                                    
+         6         30       9400                                                                    
+         5         20      10875                                                                    
+
+SQL> select count(*),sal
+  2  from emp
+  3  group by sal
+  4  having sal>1200;
+
+  COUNT(*)        SAL                                                                               
+---------- ----------                                                                               
+         1       2450                                                                               
+         1       5000                                                                               
+         1       1300                                                                               
+         2       1250                                                                               
+         1       2850                                                                               
+         1       2975                                                                               
+         2       3000                                                                               
+         1       1600                                                                               
+         1       1500                                                                               
+
+9 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(*),sal,job
+  2  from emp
+  3  group by sal,job
+  4* having sal>1200
+SQL> /
+
+  COUNT(*)        SAL JOB                                                                           
+---------- ---------- ---------                                                                     
+         1       2850 MANAGER                                                                       
+         1       1500 SALESMAN                                                                      
+         1       2975 MANAGER                                                                       
+         1       2450 MANAGER                                                                       
+         1       1300 CLERK                                                                         
+         2       1250 SALESMAN                                                                      
+         2       3000 ANALYST                                                                       
+         1       1600 SALESMAN                                                                      
+         1       5000 PRESIDENT                                                                     
+
+9 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(*),sal,job
+  2  from emp
+  3  group by sal,job
+  4* having count(sal)>1200
+SQL> /
+
+no rows selected
+
+SQL> select count(*),sal,job
+  2  from emp
+  3  group by sal,job
+  4  having sal>1200;
+
+  COUNT(*)        SAL JOB                                                                           
+---------- ---------- ---------                                                                     
+         1       2850 MANAGER                                                                       
+         1       1500 SALESMAN                                                                      
+         1       2975 MANAGER                                                                       
+         1       2450 MANAGER                                                                       
+         1       1300 CLERK                                                                         
+         2       1250 SALESMAN                                                                      
+         2       3000 ANALYST                                                                       
+         1       1600 SALESMAN                                                                      
+         1       5000 PRESIDENT                                                                     
+
+9 rows selected.
+
+SQL> 
+SQL> 
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(*),sal,job,sum(sal)
+  2  from emp
+  3  group by sal,job
+  4* having sal>1200 and sal>3800
+SQL> /
+
+  COUNT(*)        SAL JOB         SUM(SAL)                                                          
+---------- ---------- --------- ----------                                                          
+         1       5000 PRESIDENT       5000                                                          
+
+SQL> select deptno,count(*)
+  2  from emp
+  3  where job='MANAGER'
+  4  group by deptno
+  5  having count(*)=2;
+
+no rows selected
+
+SQL> select (*)
+  2  from emp;
+select (*)
+        *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> select * from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO               
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------               
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20               
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30               
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30               
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20               
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30               
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30               
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10               
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20               
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10               
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30               
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20               
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30               
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20               
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10               
+
+14 rows selected.
+
+SQL> select job,max(sal)
+  2  from emp
+  3  group by job
+  4  having sal>3800;
+having sal>3800
+       *
+ERROR at line 4:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> select job,max(sal)
+  2  from emp
+  3  group by job
+  4  having max(sal)>3800;
+
+JOB         MAX(SAL)                                                                                
+--------- ----------                                                                                
+PRESIDENT       5000                                                                                
+
+SQL>  select count(*),sal,job,sum(sal)
+  2    2  from emp
+  3    3  group by sal,job
+  4    4* having sal>1200 and sal>3800;
+  2  from emp
+  *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   select count(*),sal,job,sum(sal)
+  2     from emp
+  3      group by sal,job
+  4*    having sal>1200 and sum(sal)>3800
+SQL> /
+
+  COUNT(*)        SAL JOB         SUM(SAL)                                                          
+---------- ---------- --------- ----------                                                          
+         2       3000 ANALYST         6000                                                          
+         1       5000 PRESIDENT       5000                                                          
+
+SQL> > select job,max(sal)
+SP2-0734: unknown command beginning "> select j..." - rest of line ignored.
+SQL>   2  from emp
+SQL>   3  group by job
+SQL>   4  having max(sal)>3800;;
+SQL> ed
+Wrote file afiedt.buf
+
+  1   select count(*),sal,job,sum(sal)
+  2   from emp
+  3   group by job
+  4*  having max(sal)>3800;
+SQL> ed
+Wrote file afiedt.buf
+
+  1   select count(*),sal,job,sum(sal)
+  2   from emp
+  3   group by job
+  4*  having max(sal)>3800;
+SQL> ed
+Wrote file afiedt.buf
+
+  1   select count(*),job,max(sal)
+  2   from emp
+  3   group by job
+  4*  having max(sal)>2600
+SQL> /
+
+  COUNT(*) JOB         MAX(SAL)                                                                     
+---------- --------- ----------                                                                     
+         1 PRESIDENT       5000                                                                     
+         3 MANAGER         2975                                                                     
+         2 ANALYST         3000                                                                     
+
+SQL> --6--
+SQL> select count(*)
+  2  from emp
+  3  group by sal;
+
+  COUNT(*)                                                                                          
+----------                                                                                          
+         1                                                                                          
+         1                                                                                          
+         1                                                                                          
+         2                                                                                          
+         1                                                                                          
+         1                                                                                          
+         1                                                                                          
+         2                                                                                          
+         1                                                                                          
+         1                                                                                          
+         1                                                                                          
+         1                                                                                          
+
+12 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(*),sal
+  2  from emp
+  3* group by sal
+SQL> /
+
+  COUNT(*)        SAL                                                                               
+---------- ----------                                                                               
+         1       2450                                                                               
+         1       5000                                                                               
+         1       1300                                                                               
+         2       1250                                                                               
+         1       2850                                                                               
+         1       2975                                                                               
+         1       1100                                                                               
+         2       3000                                                                               
+         1        800                                                                               
+         1       1600                                                                               
+         1       1500                                                                               
+         1        950                                                                               
+
+12 rows selected.
+
+SQL> select count(*),sal,deptno
+  2  from emp
+  3  group by sal,deptno
+  4  ;
+
+  COUNT(*)        SAL     DEPTNO                                                                    
+---------- ---------- ----------                                                                    
+         1       5000         10                                                                    
+         1       1300         10                                                                    
+         1       1600         30                                                                    
+         2       1250         30                                                                    
+         1       2450         10                                                                    
+         2       3000         20                                                                    
+         1        800         20                                                                    
+         1       2850         30                                                                    
+         1       1500         30                                                                    
+         1       1100         20                                                                    
+         1        950         30                                                                    
+         1       2975         20                                                                    
+
+12 rows selected.
+
+SQL> --8--
+SQL> select avg(sal)
+  2  ,deptno
+  3  from emp
+  4  group by deptno
+  5  having avg(sal)<3000;
+
+  AVG(SAL)     DEPTNO                                                                               
+---------- ----------                                                                               
+1566.66667         30                                                                               
+      2175         20                                                                               
+2916.66667         10                                                                               
+
+SQL> --9--
+SQL> select deptno,ename
+  2  from emp
+  3  where ename like '%A%' or ename like '%S%'
+  4  group by deptno,ename
+  5  having count(*)>2;
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select deptno
+  2  from emp
+  3  where ename like '%A%' or ename like '%S%'
+  4  group by deptno
+  5* having count(*)>2
+SQL> /
+
+    DEPTNO                                                                                          
+----------                                                                                          
+        30                                                                                          
+        20                                                                                          
+
+SQL> --
+SQL> --10--
+SQL> select min(sal),max(sal),job
+  2  from emp
+  3  group by job
+  4  having min(sal)>1000 and max(sal)<5000;
+
+  MIN(SAL)   MAX(SAL) JOB                                                                           
+---------- ---------- ---------                                                                     
+      1250       1600 SALESMAN                                                                      
+      2450       2975 MANAGER                                                                       
+      3000       3000 ANALYST                                                                       
+
+SQL> --6--
+SQL> select count(*),sal
+  2  from emp
+  3  group by sal
+  4  having count(*)>1;
+
+  COUNT(*)        SAL                                                                               
+---------- ----------                                                                               
+         2       1250                                                                               
+         2       3000                                                                               
+
+SQL> select hiredate
+  2  from emp
+  3  group by hiredate
+  4  having count(*)>1;
+
+HIREDATE                                                                                            
+---------                                                                                           
+03-DEC-81                                                                                           
+
+SQL> spool off;

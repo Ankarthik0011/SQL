@@ -1,0 +1,14 @@
+CREATE TABLE Bikes (
+    BikeID INT PRIMARY KEY AUTO_INCREMENT,
+    Brand VARCHAR(50),
+    Model VARCHAR(50),
+    Type VARCHAR(30),
+    Price DECIMAL(10,2)
+);
+
+INSERT INTO Bikes (Brand, Model, Type, Price) VALUES
+('Trek', 'Domane AL 2', 'Road', 1099.99),
+('Specialized', 'Rockhopper', 'Mountain', 899.99),
+('Giant', 'Escape 3', 'Hybrid', 499.99),
+('Cannondale', 'Synapse Carbon', 'Road', 2499.99),
+('Rad Power', 'RadCity 5 Plus', 'Electric', 1999.99);

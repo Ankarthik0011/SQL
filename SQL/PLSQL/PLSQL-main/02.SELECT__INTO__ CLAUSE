@@ -1,0 +1,118 @@
+SELECT _____ INTO _____ CLAUSE 
+	Normal sql statement is used to fetch the data from table and we are storing the values into the pl/sql variable .
+	Select ___ into ___ clause always returns single values or records at a time.
+
+     SYNTAX: 
+	SELECT COL1 ,COL2 ….
+ 	INTO VAR1 ,VAR2… 
+	FROM TABLE_NAME 
+	WHERE CONDITION ;
+
+This clause is used in execuatable section of plsql program .
+ 
+EXAMPLE :
+          WRITE A PL/SQL PROGRAM DISPLAY NAME AND SALARY OF THE EMPLOYEES AND GET THE EMPNO FORM THE USER.
+DECLARE 
+     V_NAME VARCHAR(20);
+     V_SAL NUMBER ;
+BEGIN 
+     SELECT ENAME ,SAL INTO V_NAME ,V_SAL 
+     FROM EMP
+     WHERE EMPNO = &EMPNO ;
+      DBMS_OUTPUT.PUT_LINE('MY NAME IS : '||V_NAME || ' AND MY SALARY IS : ' ||V_SAL);
+END;
+/
+     O/P:
+	ENTER VALUE FOR EMPNO: 7902
+	MY NAME IS : FORD AND MY SALARY IS : 3000
+
+NOTES :
+	Whenever we are using not null ,constant clause in variable we must assign the values at the time of declaration only.
+
+EXAMPLE:
+DECLARE 
+   A NUMBER(10) NOT NULL :=60;
+   B CONSTANT NUMBER (10):=50;
+BEGIN
+   DBMS_OUTPUT.PUT_LINE(A);
+   DBMS_OUTPUT.PUT_LINE(B);
+END;
+/
+NOTES :
+We can also use default keyword in place a assignment operator , in declare  section of the pl/sql.
+EXAMPLE:
+DECLARE 
+   A NUMBER(10) DEFAULT 60;
+BEGIN
+   DBMS_OUTPUT.PUT_LINE(A);
+END;
+/
+
+
+1)	WAQTD MAXIMUM SALARY OF THE EMPLOYEE 
+DECLARE 
+   V_MAX NUMBER(5) ;
+BEGIN 
+   SELECT MAX(SAL) INTO V_MAX 
+   FROM EMP;
+      DBMS_OUTPUT.PUT_LINE(V_MAX);
+ END ;
+/ 
+2)	WAQTD THE GRATEST DIGIT AMONG THIS  NUMBER 20,30,10 
+  
+DECLARE 
+    A NUMBER(2) ;
+    B NUMBER(2) ;
+    C NUMBER(2) ;
+    D NUMBER(2);
+BEGIN 
+     A := 20;
+     B := 30;
+     C := 10;
+     D := GREATEST(A,B,C);
+     DBMS_OUTPUT.PUT_LINE(D);
+END ;
+/
+
+3)	WAQTD THE SMALLEST DIGIT AMONG THIS  NUMBER 20,30,10 
+
+DECLARE 
+    A NUMBER(2) ;
+    B NUMBER(2) ;
+    C NUMBER(2) ;
+    D NUMBER(2);
+BEGIN 
+     A := 20;
+     B := 30;
+     C := 10;
+     D := LEAST(A,B,C);
+          DBMS_OUTPUT.PUT_LINE(D);
+END ;
+/
+
+
+ASSIGNMETS :
+
+1. Write a PL/SQL block to fetch the `ENAME`, `JOB`, and `SAL` for the employee with `EMPNO = 7839`.
+
+2. Write a PL/SQL block to retrieve the `EMPNO`, `ENAME`, and `DEPTNO` for the employee whose `SAL` is greater than 2000.
+
+3. Write a PL/SQL block to display the `EMPNO`, `ENAME`, and `HIREDATE` for the employee with `EMPNO = 7782`.
+
+4. Write a PL/SQL block to fetch the `EMPNO`, `ENAME`, and `COMM` for the employee with the highest commission.
+
+5. Write a PL/SQL block to display the `EMPNO`, `ENAME`, and `JOB` for the employee whose `JOB` is 'SALESMAN'.
+
+6. Write a PL/SQL block to fetch the `EMPNO`, `ENAME`, and `SAL` for the employee with the second-highest salary.
+
+7. Write a PL/SQL block to display the `EMPNO`, `ENAME`, and `DEPTNO` for the employee who was hired the earliest (`HIREDATE`).
+
+8. Write a PL/SQL block to retrieve the `EMPNO`, `ENAME`, and `SAL` for the employee with the highest salary in the department with `DEPTNO = 30`.
+
+9. Write a PL/SQL block to fetch the `EMPNO`, `ENAME`, and `MGR` for the employee with `EMPNO = 7566`.
+
+10. Write a PL/SQL block to display the `EMPNO`, `ENAME`, and `JOB` for the employee whose `JOB` is 'MANAGER'.
+
+These questions focus on retrieving and displaying specific columns from the `emp` table.
+
+

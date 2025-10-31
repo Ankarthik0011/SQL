@@ -1,0 +1,451 @@
+28-02-2025 ASS
+
+SQL> select dname
+  2  from dept
+  3  where deptno=(select deptno
+  4                from emp
+  5                where ename='SMITH'):
+  6  ;
+              where ename='SMITH'):
+                                  *
+ERROR at line 5:
+ORA-00933: SQL command not properly ended
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select dname
+  2  from dept
+  3  where deptno=(select deptno
+  4                from emp
+  5*               where ename='SMITH')
+  6  /
+
+DNAME
+--------------
+RESEARCH
+
+SQL> SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE ENAME='KING');
+
+DNAME          LOC
+-------------- -------------
+ACCOUNTING     NEW YORK
+
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO=7902);
+
+LOC
+-------------
+DALLAS
+
+SQL> SELECT DNAME,LOC,DEPTNO
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE ENAME LIKE '%R');
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row
+
+
+SQL> SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE ENAME LIKE '%R');
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row
+
+
+SQL> --25--
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE JOB='PRESIDENT');
+
+DNAME
+--------------
+ACCOUNTING
+
+SQL> --26--
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE DNAME='ACCOUNTING');
+
+ENAME
+----------
+CLARK
+KING
+MILLER
+
+SQL> --27--
+SQL> SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE LOC='CHICAGO');
+
+ENAME             SAL
+---------- ----------
+ALLEN            1600
+WARD             1250
+MARTIN           1250
+BLAKE            2850
+TURNER           1500
+JAMES             950
+
+6 rows selected.
+
+SQL> --28--
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE DNAME='SALES');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500
+        30
+
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0
+        30
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+
+
+6 rows selected.
+
+SQL> SET PAGES 100 LINES 100
+SQL> --29--
+SQL> SELECT *
+  2  ;
+
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> SELECT EMP.*,SAL*12 AS "ANNUAL SALARY"
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4   FROM DEPT
+  5  WHERE LOC='NEW YORK');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO ANNUAL SALARY
+---------- ---------- --------- ---------- --------- ---------- ---------- ---------- -------------
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10         29400
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10         60000
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10         15600
+
+SQL> --30--
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5  WHERE DANAME='OPERATIONS');
+WHERE DANAME='OPERATIONS')
+      *
+ERROR at line 5:
+ORA-00904: "DANAME": invalid identifier
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5* WHERE DANAME='OPERATION')
+SQL> /\
+WHERE DANAME='OPERATION')
+      *
+ERROR at line 5:
+ORA-00904: "DANAME": invalid identifier
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5* WHERE DNAME='OPERATIONS')
+SQL> /
+
+no rows selected
+
+SQL> --31--
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4  FROM EMP
+  5  WHERE ENAME='SCOTT') AND DEPTNO=(SELECT DEPTNO
+  6  FROM DEPT
+  7  WHERE DNAME='ACCOUNTING');
+
+ENAME
+----------
+KING
+
+SQL> --32--
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB='MANAGER' AND DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5  WHERE LOC='CHICAGO');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+
+SQL> --33-
+SQL> SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4  FROM EMP
+  5  WHERE ENAME='KING') AND DEPTNO=(SELECT DEPTNO
+  6  FROM DEPT
+  7  WHERE DNAME='ACCOUNTING');
+
+no rows selected
+
+SQL> --34--
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB='SALESMAN' AND DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5  WHERE DNAME='SALES');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+
+SQL> --35--
+SQL> SELECT ENAME,SAL,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE<(SELECT HIREDATE
+  4  FROM EMP'
+  5  WHERE ENAME='KING') AND DEPTNO=(SELECT DEPTNO
+  6  FROM DEPT
+  7  WHERE DNAME='OPERATIONS');
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE<(SELECT HIREDATE
+  4  FROM EMP
+  5  WHERE ENAME='KING') AND DEPTNO=(SELECT DEPTNO
+  6  FROM DEPT
+  7* WHERE DNAME='OPERATIONS')
+SQL> /
+
+no rows selected
+
+SQL> --36--
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5  WHERE DNAME LIKE 'S%');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+6 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5* WHERE DNAME LIKE '%S')
+SQL> /
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row
+
+
+SQL> --37--
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DNAME LIKE '%A%';
+
+DNAME
+--------------
+ACCOUNTING
+RESEARCH
+SALES
+OPERATIONS
+
+SQL> --38--
+SQL> ;
+  1  SELECT DNAME
+  2  FROM DEPT
+  3* WHERE DNAME LIKE '%A%'
+SQL> --38--
+SQL> ;
+  1  SELECT DNAME
+  2  FROM DEPT
+  3* WHERE DNAME LIKE '%A%'
+SQL> --37--
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM DEPT
+  5  ;
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command
+
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%A%' AND DEPTNO=(SELECT DEPTNO
+  4  ;
+WHERE ENAME LIKE '%A%' AND DEPTNO=(SELECT DEPTNO
+                                   *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command
+
+
+SQL> SELECT DANAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE ENAME LIKE '%A%');
+SELECT DANAME
+       *
+ERROR at line 1:
+ORA-00904: "DANAME": invalid identifier
+
+
+SQL> --38--
+SQL> SELECT DANAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE SAL=800);
+SELECT DANAME,LOC
+       *
+ERROR at line 1:
+ORA-00904: "DANAME": invalid identifier
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM EMP
+  5* WHERE SAL=800)
+SQL> /
+
+DNAME          LOC
+-------------- -------------
+RESEARCH       DALLAS
+
+SQL> --39--
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM EMP
+  5  WHERE COMM IS NOT NULL);
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row
+
+
+SQL> --40--
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FRROM EMP
+  5  WHERE COMM IS NOT NULL AND DEPTNO=40);
+FRROM EMP
+      *
+ERROR at line 4:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM EMP
+  5* WHERE COMM IS NOT NULL AND DEPTNO=40)
+SQL> /
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4  FROM EMP
+  5* WHERE COMM IS NOT NULL) AND DEPTNO=40
+SQL> /
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row
+
+
+SQL>

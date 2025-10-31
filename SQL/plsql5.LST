@@ -1,0 +1,616 @@
+SQL> declare
+  2  g varchar(200);
+  3  begin
+  4  g :=greeting();
+  5  dbms_output.put_line(g);
+  6  end;
+  7  /
+good morning                                                                                        
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace function greeting
+  2      return varchar
+  3      is
+  4      begin
+  5      return 'good morning';
+  6      end greeting;
+  7      /
+
+Function created.
+
+SQL> selectgreeting() from dual;
+SP2-0734: unknown command beginning "selectgree..." - rest of line ignored.
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace function greeting
+  2      return varchar
+  3      is
+  4      begin
+  5      return 'good morning';
+  6*     end greeting;
+SQL> /
+
+Function created.
+
+SQL> select greeting() from dual;
+
+GREETING()                                                                                          
+----------------------------------------------------------------------------------------------------
+good morning                                                                                        
+
+SQL> select greeting()||''||ename
+  2  from emp;
+
+GREETING()||''||ENAME                                                                               
+----------------------------------------------------------------------------------------------------
+good morningSMITH                                                                                   
+good morningALLEN                                                                                   
+good morningWARD                                                                                    
+good morningJONES                                                                                   
+good morningMARTIN                                                                                  
+good morningBLAKE                                                                                   
+good morningCLARK                                                                                   
+good morningSCOTT                                                                                   
+good morningKING                                                                                    
+good morningTURNER                                                                                  
+good morningADAMS                                                                                   
+good morningJAMES                                                                                   
+good morningFORD                                                                                    
+good morningMILLER                                                                                  
+good morningkarthi                                                                                  
+good morningkushal                                                                                  
+
+16 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace function greeting
+  2      return varchar
+  3      is
+  4      begin
+  5      return 'good morning';
+  6      end greeting;
+  7*     /
+SQL> select greeting()||''||ename
+  2     from emp;
+
+GREETING()||''||ENAME                                                                               
+----------------------------------------------------------------------------------------------------
+good morningSMITH                                                                                   
+good morningALLEN                                                                                   
+good morningWARD                                                                                    
+good morningJONES                                                                                   
+good morningMARTIN                                                                                  
+good morningBLAKE                                                                                   
+good morningCLARK                                                                                   
+good morningSCOTT                                                                                   
+good morningKING                                                                                    
+good morningTURNER                                                                                  
+good morningADAMS                                                                                   
+good morningJAMES                                                                                   
+good morningFORD                                                                                    
+good morningMILLER                                                                                  
+good morningkarthi                                                                                  
+good morningkushal                                                                                  
+
+16 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select greeting()||' '||ename
+  2*    from emp;
+SQL> /
+   from emp;
+           *
+ERROR at line 2:
+ORA-00911: invalid character 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select greeting()||' '||ename
+  2*    from emp
+SQL> /
+
+GREETING()||''||ENAME                                                                               
+----------------------------------------------------------------------------------------------------
+good morning SMITH                                                                                  
+good morning ALLEN                                                                                  
+good morning WARD                                                                                   
+good morning JONES                                                                                  
+good morning MARTIN                                                                                 
+good morning BLAKE                                                                                  
+good morning CLARK                                                                                  
+good morning SCOTT                                                                                  
+good morning KING                                                                                   
+good morning TURNER                                                                                 
+good morning ADAMS                                                                                  
+good morning JAMES                                                                                  
+good morning FORD                                                                                   
+good morning MILLER                                                                                 
+good morning karthi                                                                                 
+good morning kushal                                                                                 
+
+16 rows selected.
+
+SQL> create or replace function greeting(name varchar)
+  2  return varchar
+  3  is
+  4  begin
+  5  return 'good morning :'||name;
+  6  end greeting;
+  7  /
+
+Function created.
+
+SQL> select greeting('karthi') from dual;
+
+GREETING('KARTHI')                                                                                  
+----------------------------------------------------------------------------------------------------
+good morning :karthi                                                                                
+
+SQL> select greeting(ename) from emp;
+
+GREETING(ENAME)                                                                                     
+----------------------------------------------------------------------------------------------------
+good morning :SMITH                                                                                 
+good morning :ALLEN                                                                                 
+good morning :WARD                                                                                  
+good morning :JONES                                                                                 
+good morning :MARTIN                                                                                
+good morning :BLAKE                                                                                 
+good morning :CLARK                                                                                 
+good morning :SCOTT                                                                                 
+good morning :KING                                                                                  
+good morning :TURNER                                                                                
+good morning :ADAMS                                                                                 
+good morning :JAMES                                                                                 
+good morning :FORD                                                                                  
+good morning :MILLER                                                                                
+good morning :karthi                                                                                
+good morning :kushal                                                                                
+
+16 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> create or replace function get_salary(eid number)
+  2  return number
+  3  as
+  4  v_sal number(4);
+  5  begin
+  6  select sal into v_sal
+  7  from emp
+  8  where empno=eid;
+  9  return v_sal;
+ 10  end;
+ 11  /
+
+Function created.
+
+SQL> select get_salary(7902) from dual;
+
+GET_SALARY(7902)                                                                                    
+----------------                                                                                    
+            3000                                                                                    
+
+SQL> select get_salary(7839) from dual;
+
+GET_SALARY(7839)                                                                                    
+----------------                                                                                    
+            5000                                                                                    
+
+SQL> create or replace function sum_value
+  2  return varchar
+  3  is
+  4  begin
+  5  return ;
+  6  
+  7  /
+
+Warning: Function created with compilation errors.
+
+SQL> create or replace function sum_values(a int,b int)
+  2  return int
+  3  as
+  4  begin
+  5  return a+b;
+  6  end sum_values;
+  7  /
+
+Function created.
+
+SQL> select sum_values(10,30) from dual;
+
+SUM_VALUES(10,30)                                                                                   
+-----------------                                                                                   
+               40                                                                                   
+
+SQL> create or replace function emp_name(dno int)
+  2  return varchar
+  3  is
+  4  v_name varchar(20);
+  5  v_deptno number;
+  6  cursor c1 is select ename,deptno from emp;
+  7  begin
+  8  open c1;
+  9  loop
+ 10  fetch c1 into v_name,v_deptno;
+ 11  exit when c1%notfound;
+ 12  if v_deptno=dno then
+ 13  v_name:=v_name||' '||v_name;
+ 14  end if;
+ 15  end loop;
+ 16  close c1;
+ 17  end;
+ 18  /
+
+Function created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace function emp_name(dno int)
+  2  return varchar
+  3  is
+  4  v_name varchar(20);
+  5  v_deptno number;
+  6  cursor c1 is select ename,deptno from emp;
+  7  begin
+  8  open c1;
+  9  loop
+ 10  fetch c1 into v_name,v_deptno;
+ 11  exit when c1%notfound;
+ 12  if v_deptno=dno then
+ 13  v_name:=v_name||' '||v_name;
+ 14  end if;
+ 15  end loop;
+ 16  close c1;
+ 17* end;
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace function emp_name(dno int)
+  2  return varchar
+  3  is
+  4  v_name varchar(20);
+  5  v_deptno number;
+  6  cursor c1 is select ename,deptno from emp;
+  7  begin
+  8  open c1;
+  9  loop
+ 10  fetch c1 into v_name,v_deptno;
+ 11  exit when c1%notfound;
+ 12  if v_deptno=dno then
+ 13  v_name:=v_name||' '||v_name;
+ 14  end if;
+ 15  end loop;
+ 16  close c1;
+ 17* end;
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace function emp_name(dno int)
+  2  return varchar
+  3  is
+  4  v_name varchar(20);
+  5  v_deptno number;
+  6  cursor c1 is select ename,deptno from emp;
+  7  begin
+  8  open c1;
+  9  loop
+ 10  fetch c1 into v_name,v_deptno;
+ 11  exit when c1%notfound;
+ 12  if v_deptno=dno then
+ 13  return 'name: '||v_name;
+ 14  end if;
+ 15  end loop;
+ 16  close c1;
+ 17* end;
+SQL> /
+
+Function created.
+
+SQL> select emp_name(10) from dual;
+
+EMP_NAME(10)                                                                                        
+----------------------------------------------------------------------------------------------------
+name: CLARK                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> ed
+Wrote file afiedt.buf
+
+  1* select emp_name(10) from dual
+SQL>  create or replace function emp_name(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6     cursor c1 is select ename,deptno from emp;
+  7     begin
+  8      open c1;
+  9      loop
+ 10     fetch c1 into v_name,v_deptno;
+ 11     exit when c1%notfound;
+ 12     if v_deptno=dno then
+ 13     s_name:=v_name;
+ 14     end if;
+ 15     end loop;
+ 16     close c1;
+ 17    end;
+ 18  /
+
+Warning: Function created with compilation errors.
+
+SQL> show errors;
+Errors for FUNCTION EMP_NAME:
+
+LINE/COL ERROR                                                                                      
+-------- -----------------------------------------------------------------                          
+13/4     PL/SQL: Statement ignored                                                                  
+13/4     PLS-00201: identifier 'S_NAME' must be declared                                            
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace function emp_name(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6  s_name varchar(20);
+  7     cursor c1 is select ename,deptno from emp;
+  8     begin
+  9      open c1;
+ 10      loop
+ 11     fetch c1 into v_name,v_deptno;
+ 12     exit when c1%notfound;
+ 13     if v_deptno=dno then
+ 14     s_name:=v_name;
+ 15     end if;
+ 16     end loop;
+ 17     close c1;
+ 18*   end;
+SQL> /
+
+Function created.
+
+SQL> select emp_name(ename) from dual;
+select emp_name(ename) from dual
+                *
+ERROR at line 1:
+ORA-00904: "ENAME": invalid identifier 
+
+
+SQL> show errors;
+No errors.
+SQL> ed
+Wrote file afiedt.buf
+
+  1* select emp_name(ename) from dual
+SQL>  create or replace function emp_name(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6     cursor c1 is select ename,deptno from emp;
+  7     begin
+  8      open c1;
+  9      loop
+ 10     fetch c1 into v_name,v_deptno;
+ 11     exit when c1%notfound;
+ 12     if v_deptno=dno then
+ 13     s_name:=v_name;
+ 14     end if;
+ 15     end loop;
+ 16     close c1;
+ 17    end;
+ 18  /
+
+Warning: Function created with compilation errors.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace function emp_name(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6  s_name varchar(20);
+  7     cursor c1 is select ename,deptno from emp;
+  8     begin
+  9      open c1;
+ 10      loop
+ 11     fetch c1 into v_name,v_deptno;
+ 12     exit when c1%notfound;
+ 13     if v_deptno=dno then
+ 14     s_name:=v_name;
+ 15     end if;
+ 16     end loop;
+ 17     close c1;
+ 18*   end;
+SQL> /
+
+Function created.
+
+SQL> select emp_name(ename) from dual;
+select emp_name(ename) from dual
+                *
+ERROR at line 1:
+ORA-00904: "ENAME": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace function emp_names(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6  s_name varchar(20);
+  7     cursor c1 is select ename,deptno from emp;
+  8     begin
+  9      open c1;
+ 10      loop
+ 11     fetch c1 into v_name,v_deptno;
+ 12     exit when c1%notfound;
+ 13     if v_deptno=dno then
+ 14     s_name:=v_name;
+ 15     end if;
+ 16     end loop;
+ 17     close c1;
+ 18*   end;
+SQL> /
+
+Function created.
+
+SQL> select emp_names(ename) from dual;
+select emp_names(ename) from dual
+                 *
+ERROR at line 1:
+ORA-00904: "ENAME": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace function emp_names(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6  v_result varchar(2000):='';
+  7     cursor c1 is select ename,deptno from emp;
+  8     begin
+  9      open c1;
+ 10      loop
+ 11     fetch c1 into v_name,v_deptno;
+ 12     exit when c1%notfound;
+ 13     if v_deptno=dno then
+ 14  v_result:=v_result || v_name ||', ';
+ 15     end if;
+ 16     end loop;
+ 17     close c1;
+ 18  return 'name : ||v_result;
+ 19*   end;
+SQL> /
+
+Warning: Function created with compilation errors.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace function emp_name(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6  v_result varchar(2000):='';
+  7     cursor c1 is select ename,deptno from emp;
+  8     begin
+  9      open c1;
+ 10      loop
+ 11     fetch c1 into v_name,v_deptno;
+ 12     exit when c1%notfound;
+ 13     if v_deptno=dno then
+ 14  v_result:=v_result || v_name ||', ';
+ 15     end if;
+ 16     end loop;
+ 17     close c1;
+ 18  return 'name : ||v_result;
+ 19*   end;
+SQL> /
+
+Warning: Function created with compilation errors.
+
+SQL> /
+
+Warning: Function created with compilation errors.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace function emp_name(dno int)
+  2      return varchar
+  3      is
+  4      v_name varchar(20);
+  5      v_deptno number;
+  6  v_result varchar(2000):= '';
+  7     cursor c1 is select ename,deptno from emp;
+  8     begin
+  9      open c1;
+ 10      loop
+ 11     fetch c1 into v_name,v_deptno;
+ 12     exit when c1%notfound;
+ 13     if v_deptno=dno then
+ 14  v_result:=v_result || v_name ||', ';
+ 15     end if;
+ 16     end loop;
+ 17     close c1;
+ 18  return 'name :' || v_result;
+ 19*   end;
+SQL> /
+
+Function created.
+
+SQL> select emp_name
+  2  (ename) from dual;
+(ename) from dual
+ *
+ERROR at line 2:
+ORA-00904: "ENAME": invalid identifier 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select emp_names
+  2* (ename) from dual
+SQL> /
+select emp_names
+       *
+ERROR at line 1:
+ORA-06575: Package or function EMP_NAMES is in an invalid state 
+
+
+SQL> spool off;

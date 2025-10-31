@@ -1,0 +1,73 @@
+create table productss (
+product_id number(4) primary key,
+sku varchar(20) not null,
+name varchar(10) not null,
+price number(10) not null,check(price>0),
+weight number(20) not null,
+descriptions varchar(10) not null,
+thumbnail varchar(10) not null,
+image varchar(10) not null,
+category varchar(10) not null,
+"create_date" date,
+stock varchar(20) not null);
+
+create table product_options (
+id number(4) primary key,
+option_id number(20) not null,
+product_id number(10) not null);
+
+
+create table options (
+option_id number(4) primary key,
+option_name varchar(20) not null);
+
+create table product_categories (
+id number(4) primary key,
+product_id number(10) not null
+category_id number(10) not null);
+
+
+create table Order_details (
+id number(4) primary key,
+order_id number(20) not null,
+product_id number(10) not null,
+price number(20) not null,check(price>0),
+sku varchar(20) not null,
+quantity varchar(20) not null);
+
+
+create table categories (
+category_id number(4) primary key,
+name varchar(20) not null,
+description varchar(10) not null,
+thumbnail varchar(20) not null);
+
+create table Orders (
+order_id number(4) primary key,
+customer_id number(20) not null,
+amount number(10) not null,check(amount>0),
+shipping_address varchar(20) not null,
+order_address varchar(20) not null,
+order_email varchar(20) not null,
+"order_date" date,
+order_status varchar(20) not null);
+
+create table Customerss (
+customer_id number(4) primary key,
+email varchar(20) not null,
+password varchar(10) not null,
+full_name varchar(20) not null,
+billing_address varchar(20) not null,
+default_shipping_address varchar(20) not null,
+country char(10) not null,
+phone number(10) not null,check(phone=10));
+
+
+
+
+
+
+
+
+
+

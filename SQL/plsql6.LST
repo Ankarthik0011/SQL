@@ -1,0 +1,350 @@
+SQL> create or replace procedure greeting
+  2  is
+  3  begin
+  4  dbms-output.put_line('good morning :' ||name)
+  5  ;
+  6  end;
+  7  /
+create or replace procedure greeting
+*
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> create or replace procedure greetings
+  2  is
+  3  begin
+  4  dbms-output.put_line('good morning :' ||name);
+  5  end;
+  6  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE GREETINGS:
+
+LINE/COL ERROR                                                                                      
+-------- -----------------------------------------------------------------                          
+4/5      PLS-00103: Encountered the symbol "-" when expecting one of the                            
+         following:                                                                                 
+         := . ( @ % ;                                                                               
+         The symbol ":=" was substituted for "-" to continue.                                       
+                                                                                                    
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace procedure greetings
+  2  is
+  3  begin
+  4  dbms_output.put_line('good morning :' ||name);
+  5* end;
+SQL> /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE GREETINGS:
+
+LINE/COL ERROR                                                                                      
+-------- -----------------------------------------------------------------                          
+4/1      PL/SQL: Statement ignored                                                                  
+4/41     PLS-00201: identifier 'NAME' must be declared                                              
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace procedure greetings
+  2  v_name varchar(20);
+  3  is
+  4  begin
+  5  dbms_output.put_line('good morning :' ||name);
+  6* end;
+SQL> /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE GREETINGS:
+
+LINE/COL ERROR                                                                                      
+-------- -----------------------------------------------------------------                          
+2/1      PLS-00103: Encountered the symbol "V_NAME" when expecting one of                           
+         the following:                                                                             
+         ( ; is with authid as cluster compress order using compiled                                
+         wrapped external deterministic parallel_enable pipelined                                   
+         result_cache                                                                               
+         The symbol "is" was substituted for "V_NAME" to continue.                                  
+                                                                                                    
+3/1      PLS-00103: Encountered the symbol "IS" when expecting one of the                           
+         following:                                                                                 
+         begin function pragma procedure subtype type <an identifier>                               
+         <a double-quoted delimited-identifier> current cursor delete                               
+         exists prior                                                                               
+                                                                                                    
+6/4      PLS-00103: Encountered the symbol "end-of-file" when expecting                             
+         one of the following:                                                                      
+         begin function pragma procedure                                                            
+                                                                                                    
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> create or replace procedure empno( e number)
+  2  is
+  3  v_name varchar(20);
+  4  v_sal number;
+  5  begin
+  6   select ename,sal into v_name,v_sal
+  7  from emp
+  8  where empno=e;
+  9  dbms_output.put_line(v_name ||','||v_sal);
+ 10  exception
+ 11  when no_data_found then
+ 12  raise_application_error(-20143,'invalid data');
+ 13  end;
+ 14  /
+
+Procedure created.
+
+SQL> exec empno(7839);
+KING,5000                                                                                           
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> 
+SQL> declare
+  2  v_name emp.ename%type;
+  3  cursor c1 select ename,sal,deptno from emp;
+  4  begin
+  5  open c1
+  6  fetch c1 into dno;
+  7  /
+cursor c1 select ename,sal,deptno from emp;
+          *
+ERROR at line 3:
+ORA-06550: line 3, column 11: 
+PLS-00103: Encountered the symbol "SELECT" when expecting one of the following: 
+( ; is return 
+The symbol "is" was substituted for "SELECT" to continue. 
+ORA-06550: line 6, column 1: 
+PLS-00103: Encountered the symbol "FETCH" when expecting one of the following: 
+. ( % ; for 
+The symbol ";" was substituted for "FETCH" to continue. 
+ORA-06550: line 6, column 18: 
+PLS-00103: Encountered the symbol "end-of-file" when expecting one of the following: 
+( begin case declare end exception exit for goto if loop mod 
+null pragma raise return select update while with 
+<an identifier> <a double-quoted 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  dno emp.dno%type;
+  3  cursor c1 select ename,sal,deptno from emp;
+  4  begin
+  5  open c1
+  6  fetch c1 into dno;
+  7  exit when c1%notfound;
+  8  dbms_output.put_line(dno);
+  9  end loop;
+ 10  close c1;
+ 11* end;
+SQL> /
+cursor c1 select ename,sal,deptno from emp;
+          *
+ERROR at line 3:
+ORA-06550: line 3, column 11: 
+PLS-00103: Encountered the symbol "SELECT" when expecting one of the following: 
+( ; is return 
+The symbol "is" was substituted for "SELECT" to continue. 
+ORA-06550: line 6, column 1: 
+PLS-00103: Encountered the symbol "FETCH" when expecting one of the following: 
+. ( % ; for 
+The symbol ";" was substituted for "FETCH" to continue. 
+ORA-06550: line 10, column 1: 
+PLS-00103: Encountered the symbol "CLOSE"  
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  i emp%rowtype;
+  3  v_deptno :=&v_deptno;
+  4  cursor c1 is select * from emp where deptno=v_deptno;
+  5  begin
+  6  open c1
+  7  fetch c1 into i;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(i.ename ', '||i.sal ', '||i.deptno);
+ 10  end loop;
+ 11  close c1;
+ 12* end;
+SQL> /
+Enter value for v_deptno: 10
+old   3: v_deptno :=&v_deptno;
+new   3: v_deptno :=10;
+v_deptno :=10;
+         *
+ERROR at line 3:
+ORA-06550: line 3, column 10: 
+PLS-00103: Encountered the symbol "=" when expecting one of the following: 
+constant exception <an identifier> 
+<a double-quoted delimited-identifier> table long double ref 
+char time timestamp interval date binary national character 
+nchar 
+The symbol "<an identifier>" was substituted for "=" to continue. 
+ORA-06550: line 7, column 1: 
+PLS-00103: Encountered the symbol "FETCH" when expecting one of the following: 
+. ( % ; for 
+The symbol ";" was substituted for "FETCH" to continue. 
+ORA-06550: line 9, column 30: 
+PLS-00103: Encountered the symbol ", " when expecting one of the following: 
+. ( ) , * @ % & = - + < / > at in is mod remainder not rem => 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec as between from u 
+ORA-06550: line 9, column 42: 
+PLS-00103: Encountered the symbol ", " when expecting one of the following: 
+. ( ) , * @ % & = - + < / > at in is mod remainder not rem => 
+<an exponent (**)> <> or != or ~= >= <= <> and or lik
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  i emp%rowtype;
+  3  v_deptno :=&v_deptno;
+  4  cursor c1 is select * from emp where deptno=v_deptno;
+  5  begin
+  6  open c1
+  7  fetch c1 into i;
+  8  exit when c1%notfound;
+  9  dbms_output.put_line(i.ename||', '||i.sal|| ', '||i.deptno);
+ 10  end loop;
+ 11  close c1;
+ 12* end;
+SQL> /
+Enter value for v_deptno: 10
+old   3: v_deptno :=&v_deptno;
+new   3: v_deptno :=10;
+v_deptno :=10;
+         *
+ERROR at line 3:
+ORA-06550: line 3, column 10: 
+PLS-00103: Encountered the symbol "=" when expecting one of the following: 
+constant exception <an identifier> 
+<a double-quoted delimited-identifier> table long double ref 
+char time timestamp interval date binary national character 
+nchar 
+The symbol "<an identifier>" was substituted for "=" to continue. 
+ORA-06550: line 7, column 1: 
+PLS-00103: Encountered the symbol "FETCH" when expecting one of the following: 
+. ( % ; for 
+The symbol ";" was substituted for "FETCH" to continue. 
+ORA-06550: line 11, column 1: 
+PLS-00103: Encountered the symbol "CLOSE"  
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  i emp%rowtype;
+  3  v_deptno :=&v_deptno;
+  4  cursor c1 is select * from emp where deptno=v_deptno;
+  5  begin
+  6  open c1
+  7  loop
+  8  fetch c1 into i;
+  9  exit when c1%notfound;
+ 10  dbms_output.put_line(i.ename||', '||i.sal|| ', '||i.deptno);
+ 11  end loop;
+ 12  close c1;
+ 13* end;
+SQL> /
+Enter value for v_deptno: 10
+old   3: v_deptno :=&v_deptno;
+new   3: v_deptno :=10;
+v_deptno :=10;
+         *
+ERROR at line 3:
+ORA-06550: line 3, column 10: 
+PLS-00103: Encountered the symbol "=" when expecting one of the following: 
+constant exception <an identifier> 
+<a double-quoted delimited-identifier> table long double ref 
+char time timestamp interval date binary national character 
+nchar 
+The symbol "<an identifier>" was substituted for "=" to continue. 
+ORA-06550: line 7, column 1: 
+PLS-00103: Encountered the symbol "LOOP" when expecting one of the following: 
+. ( % ; for 
+The symbol "; was inserted before "LOOP" to continue. 
+ORA-06550: line 12, column 1: 
+PLS-00103: Encountered the symbol "CLOSE"  
+
+
+SQL> show error
+No errors.
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> create procedure empno(e number),tr_type( t varchar),amt(default 0)
+  2  is
+  3  v_name varchar(20);
+  4  old_sal number;
+  5  begin
+  6  select sal into old_sal
+  7  from emp
+  8  where empno=v_empno;
+  9  if
+ 10  tr_type ='debit' then
+ 11  update emp
+ 12  set sal=sal_amt
+ 13  where empno=v_empno;
+ 14  
+ 15  /
+create procedure empno(e number),tr_type( t varchar),amt(default 0)
+                 *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> spool off;

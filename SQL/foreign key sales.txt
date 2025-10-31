@@ -1,0 +1,20 @@
+alter table product_options-----
+add constraint fk_option_id foreign key(option_id) references Options (option_id);
+
+alter table product_options
+add constraint fk_product_id foreign key(product_id) references productss (product_id);
+
+alter table product_categories
+add constraint fk1_product_id foreign key(product_id) references productss (product_id);
+
+alter table product_categories----
+add constraint fk_category_id foreign key(category_id) references categories (category_id);
+
+alter table order_details-----
+add constraint fk_order_id foreign key(order_id) references Orders (order_id);
+
+alter table order_details
+add constraint fk2_product_id foreign key(product_id) references productss (product_id);
+
+alter table Orders----
+add constraint fk_customer_id foreign key(customer_id) references customerss (customer_id);
